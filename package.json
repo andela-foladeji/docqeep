@@ -4,7 +4,8 @@
   "description": "Document Management System to manage users, roles and documents",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "start": "nodemon index.js",
+    "test": "istanbul cover _mocha --R spec test/server"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,11 @@
   "devDependencies": {
     "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "supertest": "^2.0.1"
   },
   "dependencies": {
+    "express": "^4.14.0",
     "sequelize": "^3.27.0"
   }
 }
