@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "istanbul cover _mocha --R spec test/server"
+    "test": "istanbul cover _mocha --R test/server"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "express": "^4.14.0",
+    "faker": "^3.1.0",
     "sequelize": "^3.27.0"
   }
 }
