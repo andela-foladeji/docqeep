@@ -1,24 +1,53 @@
 const app = require('../../server/index'),
   request = require('supertest')(app),
   assert = require('assert'),
+  db = require('../../server/models'),
   fakeData = require('../fake-data');
 
 describe('User Actions', () => {
-  describe('POST /users', () => {
+  let roleId;
+  before((done) => {
+    request.post('/users/role')
+      .send(fakeData.newRole)
+      .end((err, res) => {
+        if (!err) {
+          roleId = res.body.role.id;
+        }
+        done();
+      });
+  });
+
+  after(() => {
+    db.sequelize.sync({ force: true });
+  });
+
+  describe('POST /users create account', () => {
     it('should create account if all details are available', (done) => {
+      fakeData.accurateUser.roleId = roleId;
+      request.post('/users')
+        .send(fakeData.accurateUser)
+        .expect(200)
+        .end((error, res) => {
+          if (!error) {
+            assert.equal(res.body.done, true);
+          }
+          done();
+        });
+    });
+
+    it('does not create account without role', (done) => {
       request.post('/users')
       .send(fakeData.accurateUser)
-      .expect(200)
+      .expect(401)
       .end((error, res) => {
-        if (error) {
-          return done(error);
+        if (!error) {
+          assert.equal(res.body.done, false);
         }
-        assert.equal(res.body.isDone, true);
         done();
       });
     });
 
-    it('should not create account if first name is missing', (done) => {
+    it('does not create account if first name is missing', (done) => {
       request.post('/users')
       .send(fakeData.noFirstName)
       .expect(401)
@@ -26,7 +55,7 @@ describe('User Actions', () => {
         if (error) {
           return done(error);
         }
-        assert.equal(res.body.isDone, false);
+        assert.equal(res.body.done, false);
         done();
       });
     });
@@ -39,7 +68,7 @@ describe('User Actions', () => {
         if (error) {
           return done(error);
         }
-        assert.equal(res.body.isDone, false);
+        assert.equal(res.body.done, false);
         done();
       });
     });

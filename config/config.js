@@ -12,7 +12,7 @@ const config = {
       options: {
         host: '127.0.0.1',
         dialect: 'postgres',
-
+        logging: false,
         pool: {
           max: 100,
           min: 0,
