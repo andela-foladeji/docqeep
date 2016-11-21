@@ -1,6 +1,6 @@
 const app = require('../../server/index'),
   request = require('supertest')(app),
-  assert = require('assert'),
+  assert = require('chai').assert,
   db = require('../../server/models'),
   fakeData = require('../fake-data');
 
@@ -17,8 +17,11 @@ describe('User Actions', () => {
       });
   });
 
-  after(() => {
-    db.sequelize.sync({ force: true });
+  after((done) => {
+    db.sequelize.sync({ force: true })
+      .then(() => {
+        done();
+      });
   });
 
   describe('POST /users create account', () => {
