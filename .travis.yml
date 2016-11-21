@@ -5,7 +5,7 @@ node_js:
 service:
   - postgresql
 
-before-script:
+before_script:
   - psql -c 'create database dms_test;' -U postgres
   - npm run db-init
 
