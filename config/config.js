@@ -1,6 +1,6 @@
 const path = require('path'),
   env = process.env.NODE_ENV || 'development';
-require('dotenv').config();
+require('dotenv').config({ silent: true });
 
 const config = {
   development: {
