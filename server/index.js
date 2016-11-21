@@ -7,12 +7,12 @@ const express = require('express'),
 const app = express();
 // const port = process.env.PORT || 3000;
 
-db.sequelize.sync({ force: true })
-  .then(() => {
-    console.log('synced');
-  }).catch((error) => {
-    console.log(error);
-  });
+// db.sequelize.sync({ force: true })
+//   .then(() => {
+//     console.log('synced');
+//   }).catch((error) => {
+//     console.log(error);
+//   });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

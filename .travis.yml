@@ -2,5 +2,12 @@ language: node_js
 node_js:
   - node
 
+service:
+  - postgresql
+
+before-script:
+  - psql -c 'create database dms_test;' -U postgres
+  - npm run db-init
+
 after_script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
