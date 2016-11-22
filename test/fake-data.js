@@ -22,6 +22,10 @@ const fakeData = {
   },
   newRole: {
     title: faker.lorem.words()
+  },
+  document: {
+    title: faker.lorem.words(),
+    content: faker.lorem.paragraph()
   }
 };
 

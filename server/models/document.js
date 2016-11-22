@@ -7,6 +7,10 @@ module.exports = function (sequelize, DataType) {
     content: {
       type: DataType.TEXT,
       allowNull: false
+    },
+    access: {
+      type: DataType.STRING,
+      defaultValue: 'public'
     }
   }, {
     classMethods: {
