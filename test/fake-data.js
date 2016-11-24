@@ -1,27 +1,25 @@
 const faker = require('faker');
 
 const fakeData = {
-  accurateUser: {
+  user: {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     username: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password()
   },
-  noFirstName: {
+  user2: {
+    firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     username: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password()
   },
-  noLastName: {
-    firstName: faker.name.lastName(),
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password()
+  role1: {
+    title: 'Admin'
   },
-  newRole: {
-    title: faker.lorem.words()
+  role2: {
+    title: 'User'
   },
   document: {
     title: faker.lorem.words(),

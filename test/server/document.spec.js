@@ -9,13 +9,13 @@ describe('Document related activities', () => {
   const requiredFields = ['title', 'content', 'ownerId'];
   before((done) => {
     request.post('/users/role')
-      .send(fakeData.newRole)
+      .send(fakeData.role1)
       .end((err, res) => {
         if (!err) {
           roleId = res.body.role.id;
-          fakeData.accurateUser.roleId = roleId;
+          fakeData.user.roleId = roleId;
           request.post('/users')
-            .send(fakeData.accurateUser)
+            .send(fakeData.user)
             .then((err, res) => {
               if (!err) {
                 userId = res.body.user.id;
