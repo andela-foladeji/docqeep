@@ -1,3 +1,5 @@
+const bCrypt = require('bcrypt');
+
 const db = require('../models');
 /**
  * UsersController class to handle all Users
@@ -14,7 +16,11 @@ class UsersController {
     db.user.create(req.body)
       .then(() => {
         res.status(200).send({ done: true });
-      }).catch(() => {
+      }).catch((error) => {
+        if (error.errors[0].type === 'notNull Violation' ||
+        error.errors[0].type === 'unique violation') {
+          return res.status(400).send({ done: false });
+        }
         res.status(401).send({ done: false });
       });
   }
@@ -32,6 +38,35 @@ class UsersController {
       }).catch(() => {
         res.status(401).send({ done: false });
       });
+  }
+
+  /**
+   * method createUser to create a User
+   * @param {object} req - request details
+   * @param {object} res - response details
+   * @return {object} new role details;
+   */
+  static login(req, res) {
+    db.user.findAll({
+      where: {
+        username: req.body.username
+      }
+    }).then((userDetails) => {
+      if (userDetails[0]) {
+        if (bCrypt.compareSync(req.body.password,
+        userDetails[0].dataValues.password)) {
+          return res.status(200).send({ done: true, token: '9848934' });
+        }
+        return res.status(401).send({
+          done: false,
+          message: 'Invalid password'
+        });
+      }
+      return res.status(401).send({
+        done: false,
+        message: 'Invalid username'
+      });
+    });
   }
 }
 

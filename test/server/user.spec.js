@@ -9,6 +9,7 @@ describe('User Actions', () => {
   const requiredFields = ['firstName', 'lastName',
     'username', 'email', 'password'];
   let roleId1, roleId2, token;
+  let incompleteUser = {};
   before((done) => {
     request.post('/users/role')
       .send(fakeData.role1)
@@ -66,15 +67,17 @@ describe('User Actions', () => {
 
     requiredFields.forEach((field) => {
       it(`does not create account without ${field}`, (done) => {
-        delete fakeData.user[field];
+        Object.assign(incompleteUser, fakeData.user);
+        delete incompleteUser[field];
         request.post('/users')
-          .send(fakeData.user)
+          .send(incompleteUser)
           .end((error, res) => {
             assert.equal(res.status, 400);
             assert.isFalse(res.body.done);
             done();
           });
       });
+      incompleteUser = {};
     });
   });
 
@@ -96,14 +99,13 @@ describe('User Actions', () => {
     it('prevents login for invalid username', (done) => {
       request.post('/users/login')
         .send({
-          username: faker.internet.Username(),
+          username: faker.internet.userName(),
           password: fakeData.user.password
         })
         .end((error, res) => {
           assert.equal(res.status, 401);
-          assert.equal(res.body.done, false);
+          assert.isFalse(res.body.done);
           assert.isUndefined(res.body.token);
-          token = res.body.token;
           done();
         });
     });

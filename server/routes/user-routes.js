@@ -6,5 +6,6 @@ const userRoute = express.Router();
 
 userRoute.post('/', UsersController.createUser);
 userRoute.post('/role', UsersController.createRole);
+userRoute.post('/login', UsersController.login);
 
 module.exports = userRoute;
