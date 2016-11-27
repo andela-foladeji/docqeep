@@ -118,11 +118,65 @@ class UsersController {
           });
         });
       } else {
-        return res.status(401).send({
-          done: false,
-          message: 'You\'re not authorized'
-        });
+        UsersController.returnUnAuthroized(res);
       }
+    });
+  }
+
+  /**
+   * method getAuser to get a particular user details
+   * @param {object} req - request details
+   * @param {object} res - response details
+   * @return {object} userObject details;
+   */
+  static getAUser(req, res) {
+    if (req.decoded.id === parseInt(req.params.id, 10)) {
+      db.user.findById(req.decoded.id).then((theUser) => {
+        return res.status(200).send({
+          done: true,
+          user: theUser.dataValues
+        });
+      });
+    } else {
+      UsersController.returnUnAuthroized(res);
+    }
+  }
+
+  /**
+   * method updateAUser to update user details
+   * @param {object} req - request details
+   * @param {object} res - response details
+   * @return {object} new userObject details;
+   */
+  static updateAUser(req, res) {
+    if (req.decoded.id === parseInt(req.params.id, 10)) {
+      db.user.update(req.body, {
+        where: {
+          id: req.decoded.id
+        },
+        fields: ['firstName', 'lastName', 'username', 'email',
+          'password', 'roleId'],
+        returning: true
+      }).then((updatedUser) => {
+        return res.status(200).send({
+          done: true,
+          user: updatedUser[1][0].dataValues
+        });
+      }).catch((error) => {
+        return res.status(400).send({
+          done: false,
+          message: error.errors[0].message
+        });
+      });
+    } else {
+      UsersController.returnUnAuthroized(res);
+    }
+  }
+
+  static returnUnAuthroized(res) {
+    return res.status(401).send({
+      done: false,
+      message: 'Unauthorized request'
     });
   }
 }

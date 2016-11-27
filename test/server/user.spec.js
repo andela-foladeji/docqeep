@@ -174,7 +174,7 @@ describe('User Actions', () => {
         .end((err, res) => {
           assert.equal(res.status, 200);
           assert.isObject(res.body.user);
-          assert.property(res.body.user.username);
+          assert.property(res.body.user, 'username');
           done();
         });
     });
@@ -195,16 +195,19 @@ describe('User Actions', () => {
     it('updates for currently logged in user', (done) => {
       request.put('/users/1')
         .set({ Authorization: token })
-        .send(fakeData.user2)
+        .send(fakeData.user3)
         .end((err, res) => {
           assert.equal(res.status, 200);
-          assert.equal(res.body.user, fakeData.user2);
+          assert.equal(res.body.user.username, fakeData.user3.username);
+          assert.equal(res.body.user.email, fakeData.user3.email);
+          assert.equal(res.body.user.firstName, fakeData.user3.firstName);
           done();
         });
     });
 
     it('prevents updates of another user details', (done) => {
       request.put('/users/2')
+        .set({ Authorization: token })
         .send(fakeData.user2)
         .end((err, res) => {
           assert.equal(res.status, 401);

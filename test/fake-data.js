@@ -15,6 +15,13 @@ const fakeData = {
     email: faker.internet.email(),
     password: faker.internet.password()
   },
+  user3: {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  },
   role1: {
     title: 'Admin'
   },
