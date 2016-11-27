@@ -92,6 +92,7 @@ describe('User Actions', () => {
           assert.equal(res.status, 200);
           assert.isTrue(res.body.done);
           assert.isDefined(res.body.token);
+          token = res.body.token;
           done();
         });
     });
@@ -140,8 +141,8 @@ describe('User Actions', () => {
         .set({ Authorization: token })
         .end((error, res) => {
           assert.equal(res.status, 200);
-          assert.isArray(res.body.AllUsers);
-          assert.equal(res.body.AllUsers.size(), 2);
+          assert.isArray(res.body.allUsers);
+          assert.equal(res.body.allUsers.length, 2);
           done();
         });
     });
