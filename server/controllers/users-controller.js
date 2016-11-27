@@ -173,11 +173,37 @@ class UsersController {
     }
   }
 
+  /**
+   * method returnUnAuthroized is to return Unauthorized message
+   * @param {object} res; the response obect
+   * @returns {object} response sent to the frontend
+   */
   static returnUnAuthroized(res) {
     return res.status(401).send({
       done: false,
       message: 'Unauthorized request'
     });
+  }
+
+  /**
+   * method deleteUser to update user details
+   * @param {object} req - request details
+   * @param {object} res - response details
+   * @return {object} details of the deletion;
+   */
+  static deleteUser(req, res) {
+    if (req.decoded.id === parseInt(req.params.id, 10)) {
+      db.user.destroy({ where: { id: req.decoded.id } }).then(() => {
+        return res.status(200).send({ done: true });
+      }).catch((error) => {
+        return res.status(400).send({
+          done: false,
+          message: error.errors[0].message
+        });
+      });
+    } else {
+      UsersController.returnUnAuthroized(res);
+    }
   }
 }
 

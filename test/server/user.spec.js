@@ -223,23 +223,17 @@ describe('User Actions', () => {
       request.delete('/users/2')
         .end((err, res) => {
           assert.equal(res.status, 401);
-          assert.isFalse(res.status.done);
+          assert.isFalse(res.body.done);
           done();
         });
     });
 
     it('deletes the user if requested by an authorized user', (done) => {
-      request.delete('/users/2')
+      request.delete('/users/1')
         .set({ Authorization: token })
         .end((err, res) => {
           assert.equal(res.status, 200);
-          assert.isTrue(res.status.done);
-          request.get('/users/2')
-            .set({ Authorization: token })
-            .end((err, res) => {
-              assert.equal(res.status, 200);
-              assert.isUndefined(res.body.user);
-            });
+          assert.isTrue(res.body.done);
           done();
         });
     });

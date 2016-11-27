@@ -10,5 +10,5 @@ userRoute.get('/:id', UsersController.verify, UsersController.getAUser);
 userRoute.put('/:id', UsersController.verify, UsersController.updateAUser);
 userRoute.post('/role', UsersController.createRole);
 userRoute.post('/login', UsersController.login);
-
+userRoute.delete('/:id', UsersController.verify, UsersController.deleteUser);
 module.exports = userRoute;
