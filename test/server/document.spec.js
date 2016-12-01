@@ -5,7 +5,7 @@ const app = require('../../server/index'),
   fakeData = require('../fake-data');
 
 describe('Document related activities', () => {
-  let userId, roleId;
+  let userId, roleId, token;
   const requiredFields = ['title', 'content', 'ownerId'];
   before((done) => {
     request.post('/users/role')
@@ -16,14 +16,14 @@ describe('Document related activities', () => {
           fakeData.user.roleId = roleId;
           request.post('/users')
             .send(fakeData.user)
-            .then((err, res) => {
-              if (!err) {
-                userId = res.body.user.id;
+            .end((err2, res2) => {
+              if (!err2) {
+                fakeData.document.ownerId = res2.body.user.id;
+                token = res2.body.token;
+                done();
               }
             });
         }
-        fakeData.document.ownerId = userId;
-        done();
       });
   });
 
@@ -37,6 +37,7 @@ describe('Document related activities', () => {
   describe('POST /documents create documents', () => {
     it('a new document has published date', (done) => {
       request.post('/documents')
+        .set({ Authorization: token })
         .send(fakeData.document)
         .end((err, res) => {
           if (err) {
@@ -48,15 +49,29 @@ describe('Document related activities', () => {
         });
     });
 
-    it('sets access to public by default', (done) => {
+    it('does not create document without authorization token', (done) => {
       request.post('/documents')
         .send(fakeData.document)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
+          assert.equal(res.status, 401);
+          assert.isFalse(res.body.done);
+          done();
+        });
+    });
+
+    it('sets access to public by default', (done) => {
+      request.post('/documents')
+        .set({ Authorization: token })
+        .send(fakeData.document)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.status, 200);
-          assert.equal(res.body.document.access, 'public');
+          assert.equal(res.body.doc.access, 'public');
           done();
         });
     });

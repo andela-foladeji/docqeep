@@ -16,8 +16,11 @@ class UsersController {
    */
   static createUser(req, res) {
     db.user.create(req.body)
-      .then(() => {
-        res.status(200).send({ done: true });
+      .then((userInfo) => {
+        const token = jwt.sign({
+          id: userInfo.dataValues.id
+        }, process.env.SECRET, { expiresIn: '24h' });
+        res.status(200).send({ done: true, user: userInfo.dataValues, token });
       }).catch((error) => {
         if (error.errors[0].type === 'notNull Violation' ||
         error.errors[0].type === 'unique violation') {
@@ -72,29 +75,6 @@ class UsersController {
         message: 'Invalid username'
       });
     });
-  }
-
-  /**
-   * method verify to verify if the token is valid
-   * @param {object} req - request
-   * @return {boolean} true if token is valid;
-   */
-  static verify(req, res, next) {
-    if (req.headers.authorization) {
-      jwt.verify(req.headers.authorization, process.env.SECRET,
-        (err, decoded) => {
-          if (err) {
-            return res.status(401).json({
-              done: false,
-              message: 'Token authentication failed' });
-          }
-          req.decoded = decoded;
-          req.token = req.headers.authorization;
-          next();
-        });
-    } else {
-      return res.status(401).send({ done: false, message: 'Please login' });
-    }
   }
 
   /**

@@ -1,6 +1,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
-  user = require('./routes/user-routes');
+  user = require('./routes/user-routes'),
+  document = require('./routes/document-routes');
 
 const app = express();
 // const port = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', user);
+app.use('/documents', document);
 
 
 // app.listen(port, () => {
