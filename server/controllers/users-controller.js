@@ -17,10 +17,15 @@ class UsersController {
   static createUser(req, res) {
     db.user.create(req.body)
       .then((userInfo) => {
-        const token = jwt.sign({
-          id: userInfo.dataValues.id
-        }, process.env.SECRET, { expiresIn: '24h' });
-        res.status(200).send({ done: true, user: userInfo.dataValues, token });
+        UsersController.getUserRole(userInfo.dataValues.id, (role) => {
+          const token = jwt.sign({ id: userInfo.dataValues.id, role },
+            process.env.SECRET, { expiresIn: '24h' });
+          res.status(200).send({
+            done: true,
+            user: userInfo.dataValues,
+            token
+          });
+        });
       }).catch((error) => {
         if (error.errors[0].type === 'notNull Violation' ||
         error.errors[0].type === 'unique violation') {
@@ -55,13 +60,15 @@ class UsersController {
     db.user.findAll({
       where: {
         username: req.body.username
-      }
+      },
+      include: [db.role]
     }).then((userDetails) => {
       if (userDetails[0]) {
         if (bCrypt.compareSync(req.body.password,
         userDetails[0].dataValues.password)) {
           const token = jwt.sign({
-            id: userDetails[0].dataValues.id
+            id: userDetails[0].dataValues.id,
+            role: userDetails[0].dataValues.role.dataValues.title
           }, process.env.SECRET, { expiresIn: '24h' });
           return res.status(200).send({ done: true, token });
         }
@@ -84,23 +91,16 @@ class UsersController {
    * @return {array} array of user objects;
    */
   static getUsers(req, res) {
-    db.user.findAll({
-      where: {
-        id: req.decoded.id
-      },
-      include: [db.role]
-    }).then((theUser) => {
-      if (theUser[0].dataValues.role.title === 'Admin') {
-        db.user.all().then((allUsers) => {
-          return res.status(200).send({
-            done: true,
-            allUsers
-          });
+    if (req.decoded.role.toLowerCase() === 'admin') {
+      db.user.all().then((allUsers) => {
+        return res.status(200).send({
+          done: true,
+          allUsers
         });
-      } else {
-        UsersController.returnUnAuthroized(res);
-      }
-    });
+      });
+    } else {
+      UsersController.returnUnAuthroized(res);
+    }
   }
 
   /**
@@ -184,6 +184,24 @@ class UsersController {
     } else {
       UsersController.returnUnAuthroized(res);
     }
+  }
+
+  /**
+   * method getUserRole to get the role of a user
+   * @param {integer} userId - id of the user
+   * @param {function} callback function
+   */
+  static getUserRole(userId, callback) {
+    db.user.findAll({
+      where: {
+        id: userId
+      },
+      include: [db.role]
+    }).then(userInfo =>
+      callback(userInfo[0].dataValues.role.title)
+    ).catch(() =>
+      callback(false)
+    );
   }
 }
 
