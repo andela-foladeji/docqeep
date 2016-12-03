@@ -87,9 +87,9 @@ describe('Document related activities', () => {
     });
 
     it('creates a document with access set to role', (done) => {
-      fakeData.roleDocument.ownerId = 1;
+      fakeData.roleDocument.ownerId = 2;
       request.post('/documents')
-        .set({ Authorization: token })
+        .set({ Authorization: token2 })
         .send(fakeData.roleDocument)
         .end((err, res) => {
           if (err) {
@@ -181,6 +181,34 @@ describe('Document related activities', () => {
     });
   });
 
+  describe('GET /documents to fetch all documents', () => {
+    it('gets all documents the user is authorized to access', (done) => {
+      request.get('/documents/')
+        .set({ Authorization: token2 })
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          assert.isArray(res.body.doc);
+          assert.equal(res.body.doc.length, 3);
+          assert.isAtLeast(res.body.doc[0].createdAt,
+            res.body.doc[1].createdAt);
+          done();
+        });
+    });
+
+    it('gets all documents with pagination option', (done) => {
+      request.get('/documents/?page=1')
+        .set({ Authorization: token2 })
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          assert.isArray(res.body.doc);
+          assert.equal(res.body.doc.length, 3);
+          assert.isAtLeast(res.body.doc[0].createdAt,
+            res.body.doc[1].createdAt);
+          done();
+        });
+    });
+  });
+
   describe('DELETE /documents/:id to delete a document', () => {
     it('should delete a document', (done) => {
       request.delete('/documents/1')
@@ -198,34 +226,6 @@ describe('Document related activities', () => {
         .end((err, res) => {
           assert.equal(res.status, 401);
           assert.isFalse(res.body.done);
-          done();
-        });
-    });
-  });
-
-  describe('GET /documents to fetch all documents', () => {
-    it('gets all documents the user is authorized to access', (done) => {
-      request.get('/documents/')
-        .set({ Authorization: token2 })
-        .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.isArray(res.body.doc);
-          assert.equal(res.body.doc.length, 2);
-          assert.isAtLeast(res.body.doc[0].createdAt,
-            res.body.doc[1].createdAt);
-          done();
-        });
-    });
-
-    it('gets all documents with pagination option', (done) => {
-      request.get('/documents/?page=1')
-        .set({ Authorization: token2 })
-        .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.isArray(res.body.doc);
-          assert.equal(res.body.doc.length, 2);
-          assert.isAtLeast(res.body.doc[0].createdAt,
-            res.body.doc[1].createdAt);
           done();
         });
     });
