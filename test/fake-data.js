@@ -31,6 +31,16 @@ const fakeData = {
   document: {
     title: faker.lorem.words(),
     content: faker.lorem.paragraph()
+  },
+  privateDoc: {
+    title: faker.lorem.words(),
+    content: faker.lorem.paragraph(),
+    access: 'private'
+  },
+  roleDocument: {
+    title: faker.lorem.words(),
+    content: faker.lorem.paragraph(),
+    access: 'role'
   }
 };
 
