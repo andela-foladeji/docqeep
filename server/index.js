@@ -1,6 +1,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
   user = require('./routes/user-routes'),
+  role = require('./routes/role-routes'),
   document = require('./routes/document-routes');
 
 const app = express();
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', user);
 app.use('/documents', document);
+app.use('/role', role);
 
 
 // app.listen(port, () => {
