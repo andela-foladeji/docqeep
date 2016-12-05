@@ -15,9 +15,11 @@ class DocumentsController {
    */
   static createDocument(req, res) {
     db.document.create(req.body)
-      .then((docInfo) => {
-        return res.status(200).send({ done: true, doc: docInfo.dataValues });
-      }).catch((error) => {
+      .then(docInfo => res.status(200).send({
+        done: true,
+        doc: docInfo.dataValues
+      }))
+      .catch((error) => {
         if (error.errors[0].type === 'notNull Violation' ||
         error.errors[0].type === 'unique violation') {
           return res.status(400).send({
@@ -55,7 +57,7 @@ class DocumentsController {
           }
         });
       }
-    }).catch((error) => {
+    }).catch(() => {
       res.status(501).send({ done: false });
     });
   }
@@ -91,14 +93,16 @@ class DocumentsController {
    * @return {object} response with status and message
    */
   static deleteDocument(req, res) {
+    /* eslint-disable no-confusing-arrow */
     db.document.destroy({
       where: { id: req.params.id, ownerId: req.decoded.id }
-    }).then((deleted) => {
-      return (deleted) ? res.status(200).send({ done: true }) :
-        user.returnUnAuthroized(res);
-    }).catch(() => {
+    }).then(deleted =>
+      (deleted) ? res.status(200).send({ done: true }) :
+        user.returnUnAuthroized(res)
+    ).catch(() => {
       user.returnUnAuthroized(res);
     });
+    /* eslint-enable no-confusing-arrow */
   }
 
   /**
@@ -131,11 +135,9 @@ class DocumentsController {
       options.limit = req.query.limit;
       options.offset = (req.query.page - 1) * 10;
     }
-    db.document.findAll(options).then((documents) => {
-      return res.status(200).send({ doc: documents });
-    }).catch((e) => {
-      return user.returnUnAuthroized(res);
-    });
+    db.document.findAll(options).then(documents =>
+      res.status(200).send({ doc: documents })
+    ).catch(() => user.returnUnAuthroized(res));
   }
 }
 

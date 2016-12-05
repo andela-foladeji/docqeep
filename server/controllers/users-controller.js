@@ -77,12 +77,12 @@ class UsersController {
    */
   static getUsers(req, res) {
     if (req.decoded.role.toLowerCase() === 'admin') {
-      db.user.all().then((allUsers) => {
-        return res.status(200).send({
+      db.user.all().then(allUsers =>
+        res.status(200).send({
           done: true,
           allUsers
-        });
-      });
+        })
+      );
     } else {
       UsersController.returnUnAuthroized(res);
     }
@@ -96,12 +96,12 @@ class UsersController {
    */
   static getAUser(req, res) {
     if (req.decoded.id === parseInt(req.params.id, 10)) {
-      db.user.findById(req.decoded.id).then((theUser) => {
-        return res.status(200).send({
+      db.user.findById(req.decoded.id).then(theUser =>
+        res.status(200).send({
           done: true,
           user: theUser.dataValues
-        });
-      });
+        })
+      );
     } else {
       UsersController.returnUnAuthroized(res);
     }
@@ -122,17 +122,17 @@ class UsersController {
         fields: ['firstName', 'lastName', 'username', 'email',
           'password', 'roleId'],
         returning: true
-      }).then((updatedUser) => {
-        return res.status(200).send({
+      }).then(updatedUser =>
+        res.status(200).send({
           done: true,
           user: updatedUser[1][0].dataValues
-        });
-      }).catch((error) => {
-        return res.status(400).send({
+        })
+      ).catch(error =>
+        res.status(400).send({
           done: false,
           message: error.errors[0].message
-        });
-      });
+        })
+      );
     } else {
       UsersController.returnUnAuthroized(res);
     }
@@ -158,14 +158,14 @@ class UsersController {
    */
   static deleteUser(req, res) {
     if (req.decoded.id === parseInt(req.params.id, 10)) {
-      db.user.destroy({ where: { id: req.decoded.id } }).then(() => {
-        return res.status(200).send({ done: true });
-      }).catch((error) => {
-        return res.status(400).send({
+      db.user.destroy({ where: { id: req.decoded.id } }).then(() =>
+        res.status(200).send({ done: true })
+      ).catch(error =>
+        res.status(400).send({
           done: false,
           message: error.errors[0].message
-        });
-      });
+        })
+      );
     } else {
       UsersController.returnUnAuthroized(res);
     }
@@ -175,6 +175,7 @@ class UsersController {
    * method getUserRole to get the role of a user
    * @param {integer} userId - id of the user
    * @param {function} callback function
+   * @return {function} callback function
    */
   static getUserRole(userId, callback) {
     db.user.findAll({

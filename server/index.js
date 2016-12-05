@@ -5,7 +5,7 @@ const express = require('express'),
   document = require('./routes/document-routes');
 
 const app = express();
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -19,8 +19,8 @@ app.use('/documents', document);
 app.use('/role', role);
 
 
-// app.listen(port, () => {
-//   console.log(`App can be accessed on http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`App can be accessed on http://localhost:${port}`);
+});
 
 module.exports = app;
