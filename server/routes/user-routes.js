@@ -18,4 +18,6 @@ userRoute.get('/:id/documents', Authentication.verify,
 
 userRoute.post('/login', UsersController.login);
 
+userRoute.post('/logout', UsersController.logout);
+
 module.exports = userRoute;

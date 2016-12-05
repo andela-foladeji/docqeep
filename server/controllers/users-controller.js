@@ -193,12 +193,22 @@ class UsersController {
    * method deleteUser to update user details
    * @param {object} req - request details
    * @param {object} res - response details
-   * @return {object} details of the deletion;
+   * @return {array} array of documents;
    */
   static getUserDocuments(req, res) {
     const userId = parseInt(req.params.id, 10);
     db.document.findAll({ ownerId: userId, order: [['createdAt', 'DESC']] })
       .then(documents => res.status(200).send({ doc: documents }));
+  }
+
+  /**
+   * method deleteUser to update user details
+   * @param {object} req - request details
+   * @param {object} res - response details
+   * @return {object} details of the deletion;
+   */
+  static logout(req, res) {
+    res.status(200).send({ msg: 'Logout successful' });
   }
 }
 

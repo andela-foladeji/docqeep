@@ -234,4 +234,15 @@ describe('User Actions', () => {
         });
     });
   });
+
+  describe('POST /logout to log out a user', () => {
+    it('should logout a logged in user', (done) => {
+      request.post('/users/logout')
+        .set({ Authorization: token })
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          done();
+        });
+    });
+  });
 });
