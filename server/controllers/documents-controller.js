@@ -127,8 +127,8 @@ class DocumentsController {
         }
       };
     }
-    if (req.query.page) {
-      options.limit = 10;
+    if (req.query.page && req.query.limit) {
+      options.limit = req.query.limit;
       options.offset = (req.query.page - 1) * 10;
     }
     db.document.findAll(options).then((documents) => {

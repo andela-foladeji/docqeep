@@ -36,21 +36,6 @@ class UsersController {
   }
 
   /**
-   * method createRole to create a role
-   * @param {object} req - request details
-   * @param {object} res - response details
-   * @return {object} new role details;
-   */
-  static createRole(req, res) {
-    db.role.create(req.body)
-      .then((role) => {
-        res.status(200).send({ role: role.dataValues });
-      }).catch(() => {
-        res.status(401).send({ done: false });
-      });
-  }
-
-  /**
    * method login to log a user in
    * @param {object} req - request details
    * @param {object} res - response details
@@ -202,6 +187,18 @@ class UsersController {
     ).catch(() =>
       callback(false)
     );
+  }
+
+  /**
+   * method deleteUser to update user details
+   * @param {object} req - request details
+   * @param {object} res - response details
+   * @return {object} details of the deletion;
+   */
+  static getUserDocuments(req, res) {
+    const userId = parseInt(req.params.id, 10);
+    db.document.findAll({ ownerId: userId, order: [['createdAt', 'DESC']] })
+      .then(documents => res.status(200).send({ doc: documents }));
   }
 }
 

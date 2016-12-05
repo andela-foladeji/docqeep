@@ -13,7 +13,9 @@ userRoute.route('/:id')
   .put(Authentication.verify, UsersController.updateAUser)
   .delete(Authentication.verify, UsersController.deleteUser);
 
-userRoute.post('/role', UsersController.createRole);
+userRoute.get('/:id/documents', Authentication.verify,
+  UsersController.getUserDocuments);
+
 userRoute.post('/login', UsersController.login);
 
 module.exports = userRoute;

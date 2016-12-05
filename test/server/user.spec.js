@@ -11,17 +11,13 @@ describe('User Actions', () => {
   let roleId1, roleId2, token;
   let incompleteUser = {};
   before((done) => {
-    request.post('/users/role')
-      .send(fakeData.role1)
-      .end((err, res) => {
-        roleId1 = res.body.role.id;
-        request.post('/users/role')
-          .send(fakeData.role2)
-          .end((err, res) => {
-            roleId2 = res.body.role.id;
-          });
+    db.role.create(fakeData.role1).then((role) => {
+      roleId1 = role.dataValues.id;
+      db.role.create(fakeData.role2).then((newRole) => {
+        roleId2 = newRole.dataValues.id;
         done();
       });
+    });
   });
 
   after((done) => {

@@ -8,33 +8,29 @@ describe('Document related activities', () => {
   let roleId, token, token2;
   const requiredFields = ['title', 'content', 'ownerId'];
   before((done) => {
-    request.post('/users/role')
-      .send(fakeData.role1)
-      .end((err, res) => {
-        if (!err) {
-          roleId = res.body.role.id;
-          fakeData.user.roleId = roleId;
-          request.post('/users')
-            .send(fakeData.user)
-            .end((err2, res2) => {
-              if (!err2) {
-                fakeData.document.ownerId = res2.body.user.id;
-                fakeData.privateDoc.ownerId = res2.body.user.id;
-                token = res2.body.token;
-                fakeData.user2.roleId = roleId;
-                request.post('/users')
-                  .send(fakeData.user2)
-                  .end((err3, res3) => {
-                    if (!err3) {
-                      fakeData.document.ownerId = res3.body.user.id;
-                      token2 = res3.body.token;
-                      done();
-                    }
-                  });
-              }
-            });
-        }
-      });
+    db.role.create(fakeData.role1).then((role) => {
+      roleId = role.dataValues.id;
+      fakeData.user.roleId = roleId;
+      request.post('/users')
+        .send(fakeData.user)
+        .end((err2, res2) => {
+          if (!err2) {
+            fakeData.document.ownerId = res2.body.user.id;
+            fakeData.privateDoc.ownerId = res2.body.user.id;
+            token = res2.body.token;
+            fakeData.user2.roleId = roleId;
+            request.post('/users')
+              .send(fakeData.user2)
+              .end((err3, res3) => {
+                if (!err3) {
+                  fakeData.document.ownerId = res3.body.user.id;
+                  token2 = res3.body.token;
+                  done();
+                }
+              });
+          }
+        });
+    });
   });
 
   after((done) => {
@@ -196,7 +192,7 @@ describe('Document related activities', () => {
     });
 
     it('gets all documents with pagination option', (done) => {
-      request.get('/documents/?page=1')
+      request.get('/documents/?page=1&limit=10')
         .set({ Authorization: token2 })
         .end((err, res) => {
           assert.equal(res.status, 200);
@@ -226,6 +222,19 @@ describe('Document related activities', () => {
         .end((err, res) => {
           assert.equal(res.status, 401);
           assert.isFalse(res.body.done);
+          done();
+        });
+    });
+  });
+
+  describe('GET /users/:id/documents for documents belonging to user', () => {
+    it('gets documents belonging to user', (done) => {
+      request.get('/users/1/documents')
+        .set({ Authorization: token })
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          assert.isArray(res.body.doc);
+          assert.equal(res.body.doc.length, 2);
           done();
         });
     });
