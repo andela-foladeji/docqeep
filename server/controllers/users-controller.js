@@ -22,7 +22,14 @@ class UsersController {
             process.env.SECRET, { expiresIn: '24h' });
           res.status(200).send({
             done: true,
-            user: userInfo.dataValues,
+            user: {
+              id: userInfo.dataValues.id,
+              firstName: userInfo.dataValues.firstName,
+              lastName: userInfo.dataValues.lastName,
+              email: userInfo.dataValues.email,
+              username: userInfo.dataValues.username,
+              createdAt: userInfo.dataValues.createdAt
+            },
             token
           });
         });
@@ -55,7 +62,18 @@ class UsersController {
             id: userDetails[0].dataValues.id,
             role: userDetails[0].dataValues.role.dataValues.title
           }, process.env.SECRET, { expiresIn: '24h' });
-          return res.status(200).send({ done: true, token });
+          return res.status(200).send({
+            done: true,
+            token,
+            user: {
+              id: userDetails[0].dataValues.id,
+              firstName: userDetails[0].dataValues.firstName,
+              lastName: userDetails[0].dataValues.lastName,
+              email: userDetails[0].dataValues.email,
+              username: userDetails[0].dataValues.username,
+              createdAt: userDetails[0].dataValues.createdAt
+            }
+          });
         }
         return res.status(401).send({
           done: false,
@@ -77,7 +95,12 @@ class UsersController {
    */
   static getUsers(req, res) {
     if (req.decoded.role.toLowerCase() === 'admin') {
-      db.user.all().then(allUsers =>
+      db.user.findAll({
+        attributes: [
+          'id', 'firstName', 'lastName', 'email', 'username',
+          'createdAt', 'updatedAt', 'roleId'
+        ]
+      }).then(allUsers =>
         res.status(200).send({
           done: true,
           allUsers
@@ -96,7 +119,12 @@ class UsersController {
    */
   static getAUser(req, res) {
     if (req.decoded.id === parseInt(req.params.id, 10)) {
-      db.user.findById(req.decoded.id).then(theUser =>
+      db.user.findById(req.decoded.id, {
+        attributes: [
+          'id', 'firstName', 'lastName', 'email', 'username',
+          'createdAt', 'updatedAt', 'roleId'
+        ]
+      }).then(theUser =>
         res.status(200).send({
           done: true,
           user: theUser.dataValues
@@ -191,7 +219,7 @@ class UsersController {
   }
 
   /**
-   * method deleteUser to update user details
+   * method getUserDocuments to get a user documents
    * @param {object} req - request details
    * @param {object} res - response details
    * @return {array} array of documents;
@@ -203,7 +231,7 @@ class UsersController {
   }
 
   /**
-   * method deleteUser to update user details
+   * method logout to log a user out
    * @param {object} req - request details
    * @param {object} res - response details
    * @return {object} details of the deletion;

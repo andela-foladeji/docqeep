@@ -5,13 +5,13 @@ const express = require('express'),
   document = require('./routes/document-routes');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  res.status(200).send('Working');
+  res.status(200).send('Welcome to DMS');
 });
 
 app.use('/users', user);
