@@ -4,7 +4,7 @@
   "description": "Document Management System to manage users, roles and documents",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "db-init": "node server/setup.js",
     "test": "istanbul cover _mocha --R test/server"
   },
