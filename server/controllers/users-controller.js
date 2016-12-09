@@ -40,8 +40,11 @@ class UsersController {
             message: 'Role does not exist'
           });
         }
-        if (error.errors[0].type === 'notNull Violation' ||
-        error.errors[0].type === 'unique violation') {
+        if (error.errors[0].type === 'unique violation') {
+          return res.status(400).send({ done: false,
+            message: `${error.errors[0].path} already exists` });
+        }
+        if (error.errors[0].type === 'notNull Violation') {
           return res.status(400).send({ done: false,
             message: `${error.errors[0].path} is required` });
         }
