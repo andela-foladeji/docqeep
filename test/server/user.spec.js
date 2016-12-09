@@ -39,6 +39,17 @@ describe('User Actions', () => {
         });
     });
 
+    it('does not create with an invalid roleid', (done) => {
+      fakeData.user2.roleId = 0;
+      request.post('/users')
+        .send(fakeData.user2)
+        .end((error, res) => {
+          assert.equal(res.status, 400);
+          assert.isFalse(res.body.done);
+          done();
+        });
+    });
+
     it('another account with unique details', (done) => {
       fakeData.user2.roleId = roleId2;
       request.post('/users')

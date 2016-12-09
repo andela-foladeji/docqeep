@@ -6,6 +6,7 @@ const app = require('../../server/index'),
 
 describe('Document related activities', () => {
   let roleId, token, token2;
+  const incompleteDoc = {};
   const requiredFields = ['title', 'content', 'ownerId'];
   before((done) => {
     db.role.create(fakeData.role1).then((role) => {
@@ -100,14 +101,16 @@ describe('Document related activities', () => {
 
     requiredFields.forEach((field) => {
       it(`requires ${field}`, (done) => {
-        delete fakeData.document[field];
+        Object.assign(incompleteDoc, fakeData.document);
+        delete incompleteDoc[field];
         request.post('/documents')
-          .send(fakeData.document)
+          .set({ Authorization: token2 })
+          .send(incompleteDoc)
           .end((err, res) => {
             if (err) {
               return done(err);
             }
-            assert.equal(res.status, 401);
+            assert.equal(res.status, 400);
             assert.isFalse(res.body.done);
             done();
           });
@@ -158,6 +161,20 @@ describe('Document related activities', () => {
           }
           assert.equal(res.status, 200);
           assert.equal(res.body.doc.title, fakeData.roleDocument.title);
+          done();
+        });
+    });
+
+    it('should prevent update if document not found', (done) => {
+      request.put('/documents/0')
+        .set({ Authorization: token })
+        .send(fakeData.roleDocument)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          assert.equal(res.status, 401);
+          assert.isFalse(res.body.done);
           done();
         });
     });
