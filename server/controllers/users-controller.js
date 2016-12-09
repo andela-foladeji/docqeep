@@ -165,7 +165,14 @@ class UsersController {
       }).then(updatedUser =>
         res.status(200).send({
           done: true,
-          user: updatedUser[1][0].dataValues
+          user: {
+            id: updatedUser[1][0].dataValues.id,
+            firstName: updatedUser[1][0].dataValues.firstName,
+            lastName: updatedUser[1][0].dataValues.lastName,
+            email: updatedUser[1][0].dataValues.email,
+            username: updatedUser[1][0].dataValues.username,
+            createdAt: updatedUser[1][0].dataValues.createdAt
+          }
         })
       ).catch(error =>
         res.status(400).send({
