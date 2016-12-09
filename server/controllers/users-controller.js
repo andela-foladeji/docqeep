@@ -34,12 +34,16 @@ class UsersController {
           });
         });
       }).catch((error) => {
-        if (error.message) {
-          return res.status(400).send({ done: false });
+        if (error.name === 'SequelizeForeignKeyConstraintError') {
+          return res.status(400).send({
+            done: false,
+            message: 'Role does not exist'
+          });
         }
         if (error.errors[0].type === 'notNull Violation' ||
         error.errors[0].type === 'unique violation') {
-          return res.status(400).send({ done: false });
+          return res.status(400).send({ done: false,
+            message: `${error.errors[0].path} is required` });
         }
         res.status(500).send({ done: false });
       });
