@@ -34,6 +34,9 @@ class UsersController {
           });
         });
       }).catch((error) => {
+        if (error.message) {
+          return res.status(400).send({ done: false });
+        }
         if (error.errors[0].type === 'notNull Violation' ||
         error.errors[0].type === 'unique violation') {
           return res.status(400).send({ done: false });
