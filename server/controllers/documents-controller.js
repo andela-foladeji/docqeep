@@ -58,7 +58,7 @@ class DocumentsController {
         });
       }
     }).catch(() => {
-      res.status(501).send({ done: false });
+      res.status(500).send({ done: false });
     });
   }
 
@@ -100,7 +100,7 @@ class DocumentsController {
       (deleted) ? res.status(200).send({ done: true }) :
         user.returnUnAuthroized(res)
     ).catch(() => {
-      user.returnUnAuthroized(res);
+      res.status(500).send({ done: false });
     });
     /* eslint-enable no-confusing-arrow */
   }
@@ -137,7 +137,7 @@ class DocumentsController {
     }
     db.document.findAll(options).then(documents =>
       res.status(200).send({ doc: documents })
-    ).catch(() => user.returnUnAuthroized(res));
+    ).catch(() => res.status(500).send({ done: false }));
   }
 }
 

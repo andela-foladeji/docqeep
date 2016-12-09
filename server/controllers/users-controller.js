@@ -41,7 +41,7 @@ class UsersController {
         error.errors[0].type === 'unique violation') {
           return res.status(400).send({ done: false });
         }
-        res.status(401).send({ done: false });
+        res.status(500).send({ done: false });
       });
   }
 
@@ -87,6 +87,8 @@ class UsersController {
         done: false,
         message: 'Invalid username'
       });
+    }).catch(() => {
+      res.status(500).send({ done: false })
     });
   }
 
