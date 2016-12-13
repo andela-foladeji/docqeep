@@ -15,19 +15,19 @@ class DocumentsController {
    */
   static createDocument(req, res) {
     db.document.create(req.body)
-      .then(docInfo => res.status(200).send({
+      .then(docInfo => res.status(200).json({
         done: true,
         doc: docInfo.dataValues
       }))
       .catch((error) => {
         if (error.errors[0].type === 'notNull Violation' ||
         error.errors[0].type === 'unique violation') {
-          return res.status(400).send({
+          return res.status(400).json({
             done: false,
             message: error.errors[0].message
           });
         }
-        res.status(401).send({ done: false });
+        res.status(401).json({ done: false });
       });
   }
 
@@ -43,7 +43,7 @@ class DocumentsController {
       const doc = docInfo.dataValues;
       if (doc.access === 'public' ||
       (doc.access === 'private' && doc.ownerId === req.decoded.id)) {
-        return res.status(200).send({ done: true, doc });
+        return res.status(200).json({ done: true, doc });
       }
       if (doc.access === 'private' && doc.ownerId !== req.decoded.id) {
         return user.returnUnAuthroized(res);
@@ -51,14 +51,14 @@ class DocumentsController {
       if (doc.access === 'role') {
         user.getUserRole(doc.ownerId, (docCreatorRole) => {
           if (docCreatorRole === req.decoded.role) {
-            res.status(200).send({ done: true, doc });
+            res.status(200).json({ done: true, doc });
           } else {
             user.returnUnAuthroized(res);
           }
         });
       }
     }).catch(() => {
-      res.status(500).send({ done: false });
+      res.status(500).json({ done: false });
     });
   }
 
@@ -78,7 +78,7 @@ class DocumentsController {
       returning: true
     }).then((doc) => {
       if (doc) {
-        return res.status(200).send({ done: true, doc: doc[1][0].dataValues });
+        return res.status(200).json({ done: true, doc: doc[1][0].dataValues });
       }
       user.returnUnAuthroized(res);
     }).catch(() => {
@@ -97,10 +97,10 @@ class DocumentsController {
     db.document.destroy({
       where: { id: req.params.id, ownerId: req.decoded.id }
     }).then(deleted =>
-      (deleted) ? res.status(200).send({ done: true }) :
+      (deleted) ? res.status(200).json({ done: true }) :
         user.returnUnAuthroized(res)
     ).catch(() => {
-      res.status(500).send({ done: false });
+      res.status(500).json({ done: false });
     });
     /* eslint-enable no-confusing-arrow */
   }
@@ -136,8 +136,8 @@ class DocumentsController {
       options.offset = (req.query.page - 1) * 10;
     }
     db.document.findAll(options).then(documents =>
-      res.status(200).send({ doc: documents })
-    ).catch(() => res.status(500).send({ done: false }));
+      res.status(200).json({ doc: documents })
+    ).catch(() => res.status(500).json({ done: false }));
   }
 }
 

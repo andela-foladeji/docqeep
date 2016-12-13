@@ -28,15 +28,15 @@
     "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.2",
+    "faker": "^3.1.0",
+    "chai": "^3.5.0",
     "supertest": "^2.0.1"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
-    "chai": "^3.5.0",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "faker": "^3.1.0",
     "jsonwebtoken": "^7.1.9",
     "pg": "^6.1.0",
     "sequelize": "^3.27.0"

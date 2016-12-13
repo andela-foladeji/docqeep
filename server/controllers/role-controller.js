@@ -15,9 +15,9 @@ class RoleController {
     if (req.decoded.role.toLowerCase() === 'admin') {
       db.role.create(req.body)
         .then((role) => {
-          res.status(200).send({ role: role.dataValues, done: true });
+          res.status(200).json({ role: role.dataValues, done: true });
         }).catch(() => {
-          res.status(401).send({ done: false });
+          res.status(401).json({ done: false });
         });
     } else {
       user.returnUnAuthroized(res);
@@ -33,7 +33,7 @@ class RoleController {
   static getRoles(req, res) {
     if (req.decoded.role.toLowerCase() === 'admin') {
       db.role.findAll().then((roles) => {
-        res.status(200).send({ done: true, roles });
+        res.status(200).json({ done: true, roles });
       }).catch(() => {
         user.returnUnAuthroized(res);
       });

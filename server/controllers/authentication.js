@@ -14,21 +14,21 @@ class Authentication {
    * @return {boolean} true if token is valid;
    */
   static verify(req, res, next) {
-    if (req.headers.authorization) {
-      jwt.verify(req.headers.authorization, process.env.SECRET,
-        (err, decoded) => {
-          if (err) {
-            return res.status(401).json({
-              done: false,
-              message: 'Token authentication failed' });
-          }
-          req.decoded = decoded;
-          req.token = req.headers.authorization;
-          next();
-        });
-    } else {
-      return res.status(401).send({ done: false, message: 'Please login' });
+    if (!req.headers.authorization) {
+      return res
+        .status(401).json({ done: false, message: 'Please login' });
     }
+    jwt.verify(req.headers.authorization,
+      process.env.SECRET, (err, decoded) => {
+        if (err) {
+          return res
+            .status(401)
+            .json({ done: false, message: 'Token authentication failed' });
+        }
+        req.decoded = decoded;
+        req.token = req.headers.authorization;
+        next();
+      });
   }
 }
 

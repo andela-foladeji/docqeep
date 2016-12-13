@@ -32,7 +32,7 @@ class UsersController {
         UsersController.getUserRole(userDetails.id, (role) => {
           const token = jwt.sign({ id: userDetails.id, role },
             process.env.SECRET, { expiresIn: '24h' });
-          res.status(200).send({
+          res.status(200).json({
             done: true,
             user: userDetails,
             token
@@ -40,20 +40,20 @@ class UsersController {
         });
       }).catch((error) => {
         if (error.name === 'SequelizeForeignKeyConstraintError') {
-          return res.status(400).send({
+          return res.status(400).json({
             done: false,
             message: 'Role does not exist'
           });
         }
         if (error.errors[0].type === 'unique violation') {
-          return res.status(400).send({ done: false,
+          return res.status(400).json({ done: false,
             message: `${error.errors[0].path} already exists` });
         }
         if (error.errors[0].type === 'notNull Violation') {
-          return res.status(400).send({ done: false,
+          return res.status(400).json({ done: false,
             message: `${error.errors[0].path} is required` });
         }
-        res.status(500).send({ done: false });
+        res.status(500).json({ done: false });
       });
   }
 
@@ -78,23 +78,23 @@ class UsersController {
             id: userInfo.id,
             role: userDetails[0].dataValues.role.dataValues.title
           }, process.env.SECRET, { expiresIn: '24h' });
-          return res.status(200).send({
+          return res.status(200).json({
             done: true,
             token,
             user: userInfo
           });
         }
-        return res.status(401).send({
+        return res.status(401).json({
           done: false,
-          message: 'Invalid password'
+          message: 'Invalid user details'
         });
       }
-      return res.status(401).send({
+      return res.status(401).json({
         done: false,
-        message: 'Invalid username'
+        message: 'Invalid user details'
       });
     }).catch(() => {
-      res.status(500).send({ done: false })
+      res.status(500).json({ done: false });
     });
   }
 
@@ -112,7 +112,7 @@ class UsersController {
           'createdAt', 'updatedAt', 'roleId'
         ]
       }).then(allUsers =>
-        res.status(200).send({
+        res.status(200).json({
           done: true,
           allUsers
         })
@@ -136,7 +136,7 @@ class UsersController {
           'createdAt', 'updatedAt', 'roleId'
         ]
       }).then(theUser =>
-        res.status(200).send({
+        res.status(200).json({
           done: true,
           user: theUser.dataValues
         })
@@ -162,12 +162,12 @@ class UsersController {
           'password', 'roleId'],
         returning: true
       }).then(updatedUser =>
-        res.status(200).send({
+        res.status(200).json({
           done: true,
           user: UsersController.fetchUser(updatedUser[1][0].dataValues)
         })
       ).catch(error =>
-        res.status(400).send({
+        res.status(400).json({
           done: false,
           message: error.errors[0].message
         })
@@ -183,7 +183,7 @@ class UsersController {
    * @returns {object} response sent to the frontend
    */
   static returnUnAuthroized(res) {
-    return res.status(401).send({
+    return res.status(401).json({
       done: false,
       message: 'Unauthorized request'
     });
@@ -198,9 +198,9 @@ class UsersController {
   static deleteUser(req, res) {
     if (req.decoded.id === parseInt(req.params.id, 10)) {
       db.user.destroy({ where: { id: req.decoded.id } }).then(() =>
-        res.status(200).send({ done: true })
+        res.status(200).json({ done: true })
       ).catch(error =>
-        res.status(400).send({
+        res.status(400).json({
           done: false,
           message: error.errors[0].message
         })
@@ -238,7 +238,7 @@ class UsersController {
   static getUserDocuments(req, res) {
     const userId = parseInt(req.params.id, 10);
     db.document.findAll({ ownerId: userId, order: [['createdAt', 'DESC']] })
-      .then(documents => res.status(200).send({ doc: documents }));
+      .then(documents => res.status(200).json({ doc: documents }));
   }
 
   /**
@@ -248,7 +248,7 @@ class UsersController {
    * @return {object} details of the deletion;
    */
   static logout(req, res) {
-    res.status(200).send({ msg: 'Logout successful' });
+    res.status(200).json({ msg: 'Logout successful' });
   }
 }
 
