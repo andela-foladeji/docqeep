@@ -8,6 +8,17 @@ const db = require('../models');
  * related actions
  */
 class UsersController {
+
+  /**
+   * method fetchUser to create a User
+   * @param {object} userInfo - information about user
+   * @return {object} formatted object containing user information;
+   */
+  static fetchUser(userInfo) {
+    const { firstName, lastName, username, createdAt, email, id } = userInfo;
+    return { firstName, lastName, username, createdAt, email, id };
+  }
+
   /**
    * method createUser to create a User
    * @param {object} req - request details
@@ -17,19 +28,13 @@ class UsersController {
   static createUser(req, res) {
     db.user.create(req.body)
       .then((userInfo) => {
-        UsersController.getUserRole(userInfo.dataValues.id, (role) => {
-          const token = jwt.sign({ id: userInfo.dataValues.id, role },
+        const userDetails = UsersController.fetchUser(userInfo.dataValues);
+        UsersController.getUserRole(userDetails.id, (role) => {
+          const token = jwt.sign({ id: userDetails.id, role },
             process.env.SECRET, { expiresIn: '24h' });
           res.status(200).send({
             done: true,
-            user: {
-              id: userInfo.dataValues.id,
-              firstName: userInfo.dataValues.firstName,
-              lastName: userInfo.dataValues.lastName,
-              email: userInfo.dataValues.email,
-              username: userInfo.dataValues.username,
-              createdAt: userInfo.dataValues.createdAt
-            },
+            user: userDetails,
             token
           });
         });
@@ -66,23 +71,17 @@ class UsersController {
       include: [db.role]
     }).then((userDetails) => {
       if (userDetails[0]) {
+        const userInfo = UsersController.fetchUser(userDetails[0].dataValues);
         if (bCrypt.compareSync(req.body.password,
         userDetails[0].dataValues.password)) {
           const token = jwt.sign({
-            id: userDetails[0].dataValues.id,
+            id: userInfo.id,
             role: userDetails[0].dataValues.role.dataValues.title
           }, process.env.SECRET, { expiresIn: '24h' });
           return res.status(200).send({
             done: true,
             token,
-            user: {
-              id: userDetails[0].dataValues.id,
-              firstName: userDetails[0].dataValues.firstName,
-              lastName: userDetails[0].dataValues.lastName,
-              email: userDetails[0].dataValues.email,
-              username: userDetails[0].dataValues.username,
-              createdAt: userDetails[0].dataValues.createdAt
-            }
+            user: userInfo
           });
         }
         return res.status(401).send({
@@ -165,14 +164,7 @@ class UsersController {
       }).then(updatedUser =>
         res.status(200).send({
           done: true,
-          user: {
-            id: updatedUser[1][0].dataValues.id,
-            firstName: updatedUser[1][0].dataValues.firstName,
-            lastName: updatedUser[1][0].dataValues.lastName,
-            email: updatedUser[1][0].dataValues.email,
-            username: updatedUser[1][0].dataValues.username,
-            createdAt: updatedUser[1][0].dataValues.createdAt
-          }
+          user: UsersController.fetchUser(updatedUser[1][0].dataValues)
         })
       ).catch(error =>
         res.status(400).send({
