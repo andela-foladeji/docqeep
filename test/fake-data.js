@@ -1,4 +1,4 @@
-const faker = require('faker');
+import faker from 'faker';
 
 const fakeData = {
   user: {
@@ -44,4 +44,4 @@ const fakeData = {
   }
 };
 
-module.exports = fakeData;
+export default fakeData;

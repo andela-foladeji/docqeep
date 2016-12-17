@@ -1,6 +1,6 @@
-const express = require('express');
-const Authentication = require('../controllers/authentication');
-const docController = require('../controllers/documents-controller');
+import express from 'express';
+import Authentication from '../controllers/authentication';
+import docController from '../controllers/documents-controller';
 
 const docRoute = express.Router();
 
@@ -13,4 +13,4 @@ docRoute.route('/:id')
   .delete(Authentication.verify, docController.deleteDocument)
   .put(Authentication.verify, docController.editDocument);
 
-module.exports = docRoute;
+export default docRoute;

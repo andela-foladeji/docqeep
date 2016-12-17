@@ -1,5 +1,5 @@
-const db = require('../models');
-const user = require('./users-controller');
+import db from '../models';
+import user from './users-controller';
 
 /**
  * DocumentsController class to handle all documents
@@ -141,4 +141,4 @@ class DocumentsController {
   }
 }
 
-module.exports = DocumentsController;
+export default DocumentsController;

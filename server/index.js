@@ -1,8 +1,8 @@
-const express = require('express'),
-  bodyParser = require('body-parser'),
-  user = require('./routes/user-routes'),
-  role = require('./routes/role-routes'),
-  document = require('./routes/document-routes');
+import express from 'express';
+import bodyParser from 'body-parser';
+import user from './routes/user-routes';
+import role from './routes/role-routes';
+import document from './routes/document-routes';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -23,4 +23,4 @@ app.listen(port, () => {
   console.log(`App can be accessed on http://localhost:${port}`);
 });
 
-module.exports = app;
+export default app;

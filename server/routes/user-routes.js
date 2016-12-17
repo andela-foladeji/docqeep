@@ -1,6 +1,6 @@
-const express = require('express');
-const Authentication = require('../controllers/authentication');
-const UsersController = require('../controllers/users-controller.js');
+import express from 'express';
+import Authentication from '../controllers/authentication';
+import UsersController from '../controllers/users-controller.js';
 
 const userRoute = express.Router();
 
@@ -20,4 +20,4 @@ userRoute.post('/login', UsersController.login);
 
 userRoute.post('/logout', UsersController.logout);
 
-module.exports = userRoute;
+export default userRoute;

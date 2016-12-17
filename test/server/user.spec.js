@@ -1,9 +1,11 @@
-const app = require('../../server/index'),
-  request = require('supertest')(app),
-  assert = require('chai').assert,
-  faker = require('faker'),
-  db = require('../../server/models'),
-  fakeData = require('../fake-data');
+import supertest from 'supertest';
+import faker from 'faker';
+import { assert } from 'chai';
+import db from '../../server/models';
+import fakeData from '../fake-data';
+import app from '../../server/index';
+
+const request = supertest(app);
 
 describe('User Actions', () => {
   const requiredFields = ['firstName', 'lastName',

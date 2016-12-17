@@ -1,8 +1,8 @@
-require('dotenv').config({ silent: true });
-const bCrypt = require('bcrypt'),
-  jwt = require('jsonwebtoken');
+import bCrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import db from '../models';
 
-const db = require('../models');
+require('dotenv').config({ silent: true });
 /**
  * UsersController class to handle all Users
  * related actions
@@ -252,4 +252,4 @@ class UsersController {
   }
 }
 
-module.exports = UsersController;
+export default UsersController;

@@ -1,8 +1,10 @@
-const app = require('../../server/index'),
-  request = require('supertest')(app),
-  assert = require('chai').assert,
-  db = require('../../server/models'),
-  fakeData = require('../fake-data');
+import app from '../../server/index';
+import supertest from 'supertest';
+import { assert } from 'chai';
+import db from '../../server/models';
+import fakeData from '../fake-data';
+
+const request = supertest(app);
 
 describe('Roles related activites', () => {
   let roleId, token;

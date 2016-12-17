@@ -1,5 +1,5 @@
-const db = require('../models');
-const user = require('./users-controller');
+import db from '../models';
+import user from './users-controller';
 /**
  * RoleController class to handle all role
  * related actions
@@ -43,4 +43,4 @@ class RoleController {
   }
 }
 
-module.exports = RoleController;
+export default RoleController;

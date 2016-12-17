@@ -1,4 +1,4 @@
-const db = require('./models');
+import db from './models';
 
 db.sequelize.sync({ force: true })
   .then(() => {

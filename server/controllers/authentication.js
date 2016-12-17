@@ -1,5 +1,6 @@
+import jwt from 'jsonwebtoken';
+
 require('dotenv').config({ silent: true });
-const jwt = require('jsonwebtoken');
 
 /**
  * class for JWT verification and authorization
@@ -32,4 +33,4 @@ class Authentication {
   }
 }
 
-module.exports = Authentication;
+export default Authentication;
