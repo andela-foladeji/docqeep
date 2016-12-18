@@ -6,9 +6,14 @@ import config from '../../config/config';
 const basename = path.basename(module.filename);
 
 const db = {};
+let sequelize;
 
-const sequelize = new Sequelize(config.db.database, config.db.user,
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.DATABASE_URL);
+} else {
+  sequelize = new Sequelize(config.db.database, config.db.user,
 config.db.password, config.db.options);
+}
 
 
 fs
