@@ -21,7 +21,7 @@ gulp.task('watch', () => {
 gulp.task('build', () => {
   gulp.src('client/src/app.js')
     .pipe(webpack(require('./webpack.config.js')))
-    .pipe(gulp.dest('client/js/'));
+    .pipe(gulp.dest('client/build/'));
 });
 
 gulp.task('start', ['server'], () => {

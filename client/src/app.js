@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 class Test extends Component {
   render() {
     return (
-      <h1>Test</h1>
+      <h1>Do it again</h1>
     );
   }
 }
