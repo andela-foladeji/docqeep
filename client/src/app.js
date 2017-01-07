@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import ReactDOM from "react-dom";
+import {Router, Route, IndexRoute, hashHistory} from "react-router";
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-// const Test = (props) => {
-//   return (
-    //   <h1>Test</h1>
-    // );
-// }
-class Test extends Component {
-  render() {
-    return (
-      <h1>Do it again</h1>
-    );
-  }
-}
+import Index from './pages/Index'
+injectTapEventPlugin();
+
+
 
 const main = document.getElementById('main');
 
-ReactDOM.render(<Test/>, main);
+ReactDOM.render(
+  <Router history={hashHistory}>
+    <Route path="/" component={Index}>
+    </Route>
+  </Router>, main);

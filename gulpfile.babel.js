@@ -1,7 +1,10 @@
 import gulp from 'gulp';
 import childProcess from 'child_process';
-import browserSync from 'browser-sync'
+import browserSync from 'browser-sync';
 import webpack from 'webpack-stream';
+import gulpLoadPlugins from 'gulp-load-plugins';
+
+const plugins = gulpLoadPlugins();
 
 gulp.task('server', () => {
   childProcess.exec('babel-watch server/index.js');
@@ -14,11 +17,21 @@ gulp.task('prepareDB', () => {
 
 gulp.task('watch', () => {
   // gulp.watch('client/css/*.css')
-  gulp.watch('./client/src/**/*', ['build']);
-  gulp.watch('./client/js/*.js').on('change', browserSync.reload);
+  gulp.watch('./client/src/**/*.js', ['build']);
+  gulp.watch('./client/src/sass/*.css', ['sass']);
+  gulp.watch('./client/build/*.js').on('change', browserSync.reload);
 });
 
-gulp.task('build', () => {
+gulp.task('sass', () => {
+  gulp.src('./client/src/scss/*.scss')
+    .pipe(plugins.sass())
+    .pipe(gulp.dest('./client/css/'))
+    .pipe(browserSync.reload({
+      stream: true
+    }));
+});
+
+gulp.task('build', ['sass'], () => {
   gulp.src('client/src/app.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('client/build/'));
