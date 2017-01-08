@@ -18,7 +18,7 @@ gulp.task('prepareDB', () => {
 gulp.task('watch', () => {
   // gulp.watch('client/css/*.css')
   gulp.watch('./client/src/**/*.js', ['build']);
-  gulp.watch('./client/src/sass/*.css', ['sass']);
+  gulp.watch('./client/src/scss/*.scss', ['sass']);
   gulp.watch('./client/build/*.js').on('change', browserSync.reload);
 });
 
