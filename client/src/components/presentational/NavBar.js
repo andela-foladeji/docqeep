@@ -38,6 +38,7 @@ class NavBar extends Component{
           title="docQeep"
           showMenuIconButton = {false}
           iconElementRight={<FlatButton onTouchTap={this.getStarted} label="GET STARTED" />}
+          style={{zIndex: 0}}
         />
         <Popover
             open={this.state.open}

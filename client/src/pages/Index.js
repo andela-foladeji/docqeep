@@ -4,12 +4,11 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {green600, green800} from 'material-ui/styles/colors';
 
 import NavBar from '../components/presentational/NavBar';
-import IndexContent from '../components/presentational/IndexContent';
 class Index extends Component {
   render() {
     const muiTheme = getMuiTheme({
       palette: {
-        primary1Color: green600,
+        primary1Color: '#6BBD6E',
         primary2Color: green800,
         linkColor: green600
       }
@@ -19,7 +18,7 @@ class Index extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar/>
-          <IndexContent/>
+          {this.props.children}
         </section>
       </MuiThemeProvider>
     );

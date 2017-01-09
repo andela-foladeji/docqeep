@@ -24,3 +24,13 @@ body {
   @media screen and (max-width: 768px) {
     .description {
       width: 70%; } }
+
+.a_doc {
+  height: 250px; }
+  .a_doc .doc_content {
+    height: 200px; }
+
+.nav_head {
+  height: 64px;
+  background: #6BBD6E;
+  color: #fff; }

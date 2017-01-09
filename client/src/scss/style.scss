@@ -33,3 +33,17 @@ body {
   float:right;
   text-align: right;
 }
+
+.a_doc{
+  height: 250px;
+
+  .doc_content {
+    height: 200px;
+  }
+}
+
+.nav_head {
+  height: 64px;
+  background: $bg-color;
+  color: #fff;
+}
