@@ -14,6 +14,7 @@ const userActions = {
   },
 
   login(loginDetails) {
+    console.log(loginDetails);
     return (dispatch) => {
       dispatch({
         type: 'LOGIN',

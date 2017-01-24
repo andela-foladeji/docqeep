@@ -11,10 +11,12 @@ class NavBar extends Component{
     super(props);
 
     this.state = {
-      open: false
+      open: false,
+      loggedIn: false
     };
     this.getStarted = this.getStarted.bind(this);
     this.closeStarted = this.closeStarted.bind(this);
+    this.finalizeLogin = this.finalizeLogin.bind(this);
   }
 
   getStarted(event) {
@@ -31,24 +33,38 @@ class NavBar extends Component{
     });
   }
 
+  finalizeLogin() {
+    this.closeStarted();
+    this.setState({ loggedIn: true });
+  }
+
   render() {
-    return(
-      <div>
-        <AppBar
-          title="docQeep"
-          showMenuIconButton = {false}
-          iconElementRight={<FlatButton onTouchTap={this.getStarted} label="GET STARTED" />}
-          style={{zIndex: 0}}
-        />
-        <Popover
+    let label;
+    let button;
+    if(this.state.loggedIn) {
+      button = '';
+      label = "LOGOUT";
+    } else {
+      button = <Popover
             open={this.state.open}
             anchorEl={this.state.anchorEl}
             anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
             onRequestClose={this.closeStarted}
           >
-          <DropDown register={this.props.register} login={this.props.login} user={this.props.user}/>
+          <DropDown loggedIn={this.finalizeLogin} register={this.props.register} login={this.props.login} user={this.props.user}/>
         </Popover>
+      label = "GET STARTED";
+    }
+    return(
+      <div>
+        <AppBar
+          title="docQeep"
+          showMenuIconButton = {false}
+          iconElementRight={<FlatButton onTouchTap={ this.getStarted } label={ label } />}
+          style={{zIndex: 0}}
+        />
+        { button }
       </div>
     );
   }

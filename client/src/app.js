@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
-import {Router, Route, IndexRoute, hashHistory} from "react-router";
+import {Router, Route, IndexRoute, browserHistory} from "react-router";
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import store from './store';
 
@@ -16,7 +16,7 @@ const main = document.getElementById('main');
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
       <Route path="/" component={Index}>
         <IndexRoute component={IndexContent}></IndexRoute>
         <Route path="main" component={Main}></Route>

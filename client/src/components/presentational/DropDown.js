@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import { browserHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {green600} from 'material-ui/styles/colors';
+import {green600, red400} from 'material-ui/styles/colors';
 
 import Login from './Login';
 import Signup from './Signup';
@@ -12,6 +13,12 @@ class DropDown extends Component{
     this.state = {
       signin: true
     };
+    this.errorStyle = {
+      color: red400,
+    };
+    this.successStyle = {
+      color: green600
+    }
     this.formToDisplay = this.formToDisplay.bind(this);
     this.displayMessage = this.displayMessage.bind(this);
   }
@@ -30,8 +37,15 @@ class DropDown extends Component{
   }
 
   displayMessage() {
-    console.log('message called');
-    return this.props.user.message;
+    if(this.props.user.done === false) {
+      return <span style={this.errorStyle}>{this.props.user.message}</span>;
+    } else if(this.props.user.done === true) {
+      setTimeout(() => {
+        this.props.loggedIn();
+        browserHistory.push('main');
+      }, 3000)
+      return <span style={this.successStyle}>{this.props.user.message}</span>;
+    }
   }
 
   render() {

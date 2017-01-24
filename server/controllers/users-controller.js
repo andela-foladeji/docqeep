@@ -83,7 +83,8 @@ class UsersController {
           return res.status(200).json({
             done: true,
             token,
-            user: userInfo
+            user: userInfo,
+            message: 'Login successful'
           });
         }
         return res.status(401).json({
