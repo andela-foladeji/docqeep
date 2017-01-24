@@ -47,7 +47,7 @@ class NavBar extends Component{
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
             onRequestClose={this.closeStarted}
           >
-          <DropDown />
+          <DropDown register={this.props.register} login={this.props.login} user={this.props.user}/>
         </Popover>
       </div>
     );

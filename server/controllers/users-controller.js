@@ -32,13 +32,15 @@ class UsersController {
         UsersController.getUserRole(userDetails.id, (role) => {
           const token = jwt.sign({ id: userDetails.id, role },
             process.env.SECRET, { expiresIn: '24h' });
-          res.status(200).json({
+          return res.status(200).json({
             done: true,
             user: userDetails,
             token
           });
         });
       }).catch((error) => {
+        // console.log(error);
+        process.stdout.write(JSON.stringify(error));
         if (error.name === 'SequelizeForeignKeyConstraintError') {
           return res.status(400).json({
             done: false,
@@ -53,7 +55,7 @@ class UsersController {
           return res.status(400).json({ done: false,
             message: `${error.errors[0].path} is required` });
         }
-        res.status(500).json({ done: false });
+        return res.status(500).json({ done: false });
       });
   }
 

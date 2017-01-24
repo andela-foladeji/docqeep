@@ -7,12 +7,13 @@ import Login from './Login';
 import Signup from './Signup';
 
 class DropDown extends Component{
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       signin: true
     };
     this.formToDisplay = this.formToDisplay.bind(this);
+    this.displayMessage = this.displayMessage.bind(this);
   }
 
   formToDisplay() {
@@ -28,10 +29,15 @@ class DropDown extends Component{
     }
   }
 
+  displayMessage() {
+    console.log('message called');
+    return this.props.user.message;
+  }
+
   render() {
     return(
       <div className="dropDownForm">
-        {this.state.signin ? <Login switch={this.formToDisplay} /> : <Signup switch={this.formToDisplay} />}
+        {this.state.signin ? <Login login={this.props.login} user={this.displayMessage} switch={this.formToDisplay} /> : <Signup user={this.displayMessage} register={this.props.register} switch={this.formToDisplay} />}
       </div>
     );
   }

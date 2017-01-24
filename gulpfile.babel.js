@@ -7,12 +7,12 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 const plugins = gulpLoadPlugins();
 
 gulp.task('server', () => {
-  childProcess.exec('babel-watch server/index.js');
+  childProcess.exec('babel-node server/index.js');
 });
 
 gulp.task('prepareDB', () => {
-  childProcess.exec('babel-node setup.js');
-  childProcess.exec('babel-node seeders.js');
+  childProcess.exec('babel-node server/setup.js');
+  childProcess.exec('babel-node server/seeders.js');
 });
 
 gulp.task('watch', () => {

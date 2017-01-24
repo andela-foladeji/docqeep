@@ -67,6 +67,7 @@
     "history": "^4.5.0",
     "jsonwebtoken": "^7.1.9",
     "material-ui": "^0.16.6",
+    "morgan": "^1.7.0",
     "pg": "^6.1.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",

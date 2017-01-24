@@ -1,9 +1,25 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {green600, green800} from 'material-ui/styles/colors';
 
 import NavBar from '../components/presentational/NavBar';
+import UserActions from '../actions/UserActions';
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    user: state.user
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    register: (userDetails) => dispatch(UserActions.register(userDetails)),
+    login: (loginDetails) => dispatch(UserActions.login(loginDetails))
+  };
+};
+
 class Index extends Component {
   render() {
     const muiTheme = getMuiTheme({
@@ -17,7 +33,7 @@ class Index extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
-          <NavBar/>
+          <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
           {this.props.children}
         </section>
       </MuiThemeProvider>
@@ -25,4 +41,4 @@ class Index extends Component {
   }
 }
 
-export default Index;
+export default connect(mapStateToProps, mapDispatchToProps)(Index);
