@@ -18,6 +18,7 @@ const userReducer = (state = {}, action) => {
     }
     case 'LOGIN_FULFILLED': {
       const response = action.payload.data;
+      localStorage.setItem('docqeeper', response.token);
       state = { ...state, ...response };
       break;
     }

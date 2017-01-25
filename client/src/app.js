@@ -8,6 +8,7 @@ import store from './store';
 import Index from './pages/Index';
 import Main from './components/container/Main';
 import IndexContent from './components/container/IndexContent';
+import CreateDoc from './components/container/CreateDoc';
 injectTapEventPlugin();
 
 
@@ -19,7 +20,9 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={Index}>
         <IndexRoute component={IndexContent}></IndexRoute>
-        <Route path="main" component={Main}></Route>
+        <Route path="main" component={Main}>
+          <Route path="create_document" component={CreateDoc}></Route>
+        </Route>
       </Route>
     </Router>
   </Provider>, main);

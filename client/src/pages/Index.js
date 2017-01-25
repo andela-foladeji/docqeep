@@ -34,7 +34,7 @@ class Index extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
-          {this.props.children}
+          { React.cloneElement(this.props.children, {user: this.props.user}) }
         </section>
       </MuiThemeProvider>
     );

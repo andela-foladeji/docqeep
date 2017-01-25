@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-const Menu = () => {
+const Menu = ({ user }) => {
   return(
     <ul id="slide-out" class="side-nav fixed">
       <li>
@@ -10,7 +10,7 @@ const Menu = () => {
         </div>
       </li>
       <li><a class="subheader">User Management</a></li>
-      <li className="center-align">Hi! Oladeji Femi</li>
+      <li className="center-align">Hi! {user.user.firstName + " " + user.user.lastName }</li>
       <li>
         <Link to="/edit_profile" className="waves-effect">
           <i class="material-icons">account_box</i>Edit Profile
