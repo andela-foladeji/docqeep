@@ -6,6 +6,7 @@ import {green600, green800} from 'material-ui/styles/colors';
 
 import NavBar from '../components/presentational/NavBar';
 import UserActions from '../actions/UserActions';
+import docActions from '../actions/docActions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -18,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: (userDetails) => dispatch(UserActions.register(userDetails)),
     login: (loginDetails) => dispatch(UserActions.login(loginDetails)),
-    createDoc: (docDetails) => dispatch(docActions).createDoc(docDetails)
+    createDoc: (docDetails) => dispatch(docActions.createDocument(docDetails))
   };
 };
 

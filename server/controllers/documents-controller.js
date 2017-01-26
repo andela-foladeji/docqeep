@@ -14,6 +14,7 @@ class DocumentsController {
    * @return {object} response with status and message
    */
   static createDocument(req, res) {
+    req.body.ownerId = req.decoded.id;
     db.document.create(req.body)
       .then(docInfo => res.status(200).json({
         done: true,

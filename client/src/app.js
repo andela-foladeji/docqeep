@@ -9,6 +9,7 @@ import Index from './pages/Index';
 import Main from './components/container/Main';
 import IndexContent from './components/container/IndexContent';
 import CreateDoc from './components/container/CreateDoc';
+import DocumentDisplay from './components/presentational/DocumentDisplay';
 injectTapEventPlugin();
 
 
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="/" component={Index}>
         <IndexRoute component={IndexContent}></IndexRoute>
         <Route path="main" component={Main}>
+          <Route path="/" component={CreateDoc}></Route>
           <Route path="create_document" component={CreateDoc}></Route>
         </Route>
       </Route>

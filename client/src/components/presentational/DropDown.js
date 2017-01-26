@@ -50,7 +50,7 @@ class DropDown extends Component {
         this
           .props
           .loggedIn();
-        browserHistory.push('main');
+        browserHistory.push('main/create_document');
       }, 3000)
       return <span style={this.successStyle}>{this.props.user.message}</span>;
     }

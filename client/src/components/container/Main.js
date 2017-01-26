@@ -2,7 +2,6 @@ import React from 'react';
 import Menu from '../presentational/Menu';
 
 const Main = (props) => {
-  // console.log(props);
   return(
     <div>
       <Menu user={props.user} />
