@@ -3,7 +3,7 @@ import faker from 'faker';
 import { assert } from 'chai';
 import db from '../../server/models';
 import fakeData from '../fake-data';
-import app from '../../server/index';
+import app from '../../index';
 
 const request = supertest(app);
 

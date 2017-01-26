@@ -1,13 +1,14 @@
 import React from 'react';
 import Menu from '../presentational/Menu';
-import DocumentDisplay from '../presentational/DocumentDisplay';
 
 const Main = (props) => {
-  
+  // console.log(props);
   return(
     <div>
       <Menu user={props.user} />
-      <DocumentDisplay />
+      <div class="container" style={{marginLeft: '25%'}}>
+        { React.cloneElement(props.children, {createDoc: props.createDoc, document: props.doc}) }
+      </div>
     </div>
   );
 };

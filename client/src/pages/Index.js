@@ -9,14 +9,16 @@ import UserActions from '../actions/UserActions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user
+    user: state.user,
+    doc: state.doc
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     register: (userDetails) => dispatch(UserActions.register(userDetails)),
-    login: (loginDetails) => dispatch(UserActions.login(loginDetails))
+    login: (loginDetails) => dispatch(UserActions.login(loginDetails)),
+    createDoc: (docDetails) => dispatch(docActions).createDoc(docDetails)
   };
 };
 
@@ -34,7 +36,7 @@ class Index extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
-          { React.cloneElement(this.props.children, {user: this.props.user}) }
+          { React.cloneElement(this.props.children, {user: this.props.user, createDoc: this.props.createDoc, document: this.props.doc}) }
         </section>
       </MuiThemeProvider>
     );

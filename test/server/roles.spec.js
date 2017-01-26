@@ -1,4 +1,4 @@
-import app from '../../server/index';
+import app from '../../index';
 import supertest from 'supertest';
 import { assert } from 'chai';
 import db from '../../server/models';

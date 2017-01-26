@@ -7,7 +7,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 const plugins = gulpLoadPlugins();
 
 gulp.task('server', () => {
-  childProcess.exec('babel-watch server/index.js');
+  childProcess.exec('babel-watch index.js');
 });
 
 gulp.task('prepareDB', () => {
