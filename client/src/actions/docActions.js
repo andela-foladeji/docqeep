@@ -6,7 +6,6 @@ const config = {
 
 const docActions = {
   createDocument(docDetails) {
-    console.log(docDetails);
     return (dispatch) => {
       dispatch({
         type: 'CREATE_DOC',

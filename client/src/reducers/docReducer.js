@@ -1,14 +1,12 @@
 const docReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'CREATE_DOC_FULFILED': {
+    case 'CREATE_DOC_FULFILLED': {
       const response = action.payload.data;
-      console.log(response);
       state = { ...state, ...response };
       break;
     }
     case 'CREATE_DOC_REJECTED': {
-      const response = action.payload.response.data;
-      console.log(response);
+      const response = action.payload.data;
       state = { ...state, ...response };
       break;
     }

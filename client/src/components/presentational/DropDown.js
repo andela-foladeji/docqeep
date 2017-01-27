@@ -47,10 +47,8 @@ class DropDown extends Component {
       return <span style={this.errorStyle}>{this.props.user.message}</span>;
     } else if (this.props.user.done === true) {
       setTimeout(() => {
-        this
-          .props
-          .loggedIn();
-        browserHistory.push('main/create_document');
+        this.props.loggedIn();
+        browserHistory.push('/main/create_document');
       }, 3000)
       return <span style={this.successStyle}>{this.props.user.message}</span>;
     }

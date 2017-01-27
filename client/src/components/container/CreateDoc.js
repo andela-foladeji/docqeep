@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {green600, red400} from 'material-ui/styles/colors';
 
 class CreateDoc extends Component {
   constructor() {
@@ -6,6 +7,13 @@ class CreateDoc extends Component {
     this.state = {};
     this.inputChange = this.inputChange.bind(this);
     this.createDocument = this.createDocument.bind(this);
+    this.errorStyle = {
+      color: red400
+    };
+    this.successStyle = {
+      color: green600
+    }
+    this.displayMessage = this.displayMessage.bind(this);
   }
 
   inputChange(event, field) {
@@ -16,6 +24,14 @@ class CreateDoc extends Component {
   createDocument(event) {
     event.preventDefault();
     this.props.createDoc(this.state);
+  }
+
+  displayMessage() {
+    if (this.props.doc.done) {
+      return <span style={this.successStyle}>Document created successfully</span>;
+    }
+    return <span style={this.errorStyle}>{this.props.doc.message}</span>;
+    
   }
 
   render() {
@@ -39,7 +55,7 @@ class CreateDoc extends Component {
               <option value="role">Role</option>
             </select>
           </div>
-          <span></span><br/>
+          <span>{this.displayMessage()}</span><br/>
           <button class="btn waves-effect waves-light" type="submit" name="action">Create Document </button>
         </form>
       </div>
