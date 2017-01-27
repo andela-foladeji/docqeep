@@ -12,6 +12,15 @@ const docActions = {
         payload: axios.post('/documents', docDetails, config)
       });
     };
+  },
+
+  getDocuments() {
+    return (dispatch) => {
+      dispatch({
+        type: 'GET_DOC',
+        payload: axios.get('/documents', config)
+      });
+    };
   }
 };
 

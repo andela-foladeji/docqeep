@@ -24,6 +24,7 @@ ReactDOM.render(
         <Route path="main" component={Main}>
           <Route path="/" component={CreateDoc}></Route>
           <Route path="create_document" component={CreateDoc}></Route>
+          <Route path="view" component={DocumentDisplay}></Route>
         </Route>
       </Route>
     </Router>

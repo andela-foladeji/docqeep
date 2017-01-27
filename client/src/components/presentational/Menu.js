@@ -28,7 +28,7 @@ const Menu = ({ user }) => {
         <Link to="/main/create_document" className="waves-effect">
           <i class="material-icons">note_add</i>Create Documents
         </Link>
-        <Link to="/create_document" className="waves-effect">
+        <Link to="/main/view" className="waves-effect">
           <i class="material-icons">folder_open</i>View All
         </Link>
         <Link to="/create_document" className="waves-effect">

@@ -19,7 +19,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: (userDetails) => dispatch(UserActions.register(userDetails)),
     login: (loginDetails) => dispatch(UserActions.login(loginDetails)),
-    createDoc: (docDetails) => dispatch(docActions.createDocument(docDetails))
+    createDoc: (docDetails) => dispatch(docActions.createDocument(docDetails)),
+    getDoc: () => dispatch(docActions.getDocuments())
   };
 };
 
@@ -32,12 +33,12 @@ class Index extends Component {
         linkColor: green600
       }
     });
-
+    
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
-          { React.cloneElement(this.props.children, {user: this.props.user, createDoc: this.props.createDoc, doc: this.props.doc}) }
+          { React.cloneElement(this.props.children, {user: this.props.user, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc}) }
         </section>
       </MuiThemeProvider>
     );

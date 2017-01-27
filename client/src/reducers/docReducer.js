@@ -14,6 +14,16 @@ const docReducer = (state = {}, action) => {
       // state = { ...state, ...action.payload };
       break;
     }
+    case 'GET_DOC_FULFILLED': {
+      const response = action.payload.data;
+      state = { ...state, ...response };
+      break;
+    }
+    case 'GET_DOC_REJECTED': {
+      const response = action.payload.data;
+      state = { ...state, ...response };
+      break;
+    }
   }
   return state;
 };
