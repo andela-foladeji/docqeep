@@ -10,6 +10,7 @@ import Main from './components/container/Main';
 import IndexContent from './components/container/IndexContent';
 import CreateDoc from './components/container/CreateDoc';
 import DocumentDisplay from './components/presentational/DocumentDisplay';
+import ViewDocument from './components/presentational/ViewDocument';
 injectTapEventPlugin();
 
 
@@ -25,6 +26,7 @@ ReactDOM.render(
           <Route path="/" component={CreateDoc}></Route>
           <Route path="create_document" component={CreateDoc}></Route>
           <Route path="view" component={DocumentDisplay}></Route>
+          <Route path="document/:id" component={ViewDocument}></Route>
         </Route>
       </Route>
     </Router>

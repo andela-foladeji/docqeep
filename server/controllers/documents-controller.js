@@ -44,7 +44,7 @@ class DocumentsController {
       const doc = docInfo.dataValues;
       if (doc.access === 'public' ||
       (doc.access === 'private' && doc.ownerId === req.decoded.id)) {
-        return res.status(200).json({ done: true, doc });
+        return res.status(200).json({ done: true, aDocument: doc });
       }
       if (doc.access === 'private' && doc.ownerId !== req.decoded.id) {
         return user.returnUnAuthroized(res);
@@ -58,8 +58,8 @@ class DocumentsController {
           }
         });
       }
-    }).catch(() => {
-      res.status(500).json({ done: false });
+    }).catch((e) => {
+      res.status(500).json({ done: false, e });
     });
   }
 
@@ -137,7 +137,7 @@ class DocumentsController {
       options.offset = (req.query.page - 1) * 10;
     }
     db.document.findAll(options).then(documents =>
-      res.status(200).json({ doc: documents })
+      res.status(200).json({ allDocuments: documents })
     ).catch(() => res.status(500).json({ done: false }));
   }
 }

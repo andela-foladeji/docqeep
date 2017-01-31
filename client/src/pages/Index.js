@@ -5,8 +5,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {green600, green800} from 'material-ui/styles/colors';
 
 import NavBar from '../components/presentational/NavBar';
-import UserActions from '../actions/UserActions';
-import docActions from '../actions/docActions';
+import { DocActions, UserActions } from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -19,8 +18,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: (userDetails) => dispatch(UserActions.register(userDetails)),
     login: (loginDetails) => dispatch(UserActions.login(loginDetails)),
-    createDoc: (docDetails) => dispatch(docActions.createDocument(docDetails)),
-    getDoc: () => dispatch(docActions.getDocuments())
+    createDoc: (docDetails) => dispatch(DocActions.createDocument(docDetails)),
+    getDoc: () => dispatch(DocActions.getDocuments()),
+    getADocument: (docId) => dispatch(DocActions.getADocument(docId))
   };
 };
 
@@ -38,7 +38,7 @@ class Index extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
-          { React.cloneElement(this.props.children, {user: this.props.user, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc}) }
+          { React.cloneElement(this.props.children, {user: this.props.user, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc, getADocument: this.props.getADocument}) }
         </section>
       </MuiThemeProvider>
     );

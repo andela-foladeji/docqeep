@@ -21,6 +21,15 @@ const docActions = {
         payload: axios.get('/documents', config)
       });
     };
+  },
+
+  getADocument(docId) {
+    return (dispatch) => {
+      dispatch({
+        type: 'GET_A_DOC',
+        payload: axios.get(`/documents/${docId}`, config)
+      });
+    };
   }
 };
 

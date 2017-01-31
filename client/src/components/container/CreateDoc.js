@@ -35,6 +35,12 @@ class CreateDoc extends Component {
   }
 
   render() {
+    let buttonText = 'Create Document'
+    let disabled = '';
+    if (this.props.doc.pending) {
+      buttonText = 'Processing...';
+      disabled = 'disabled';
+    }
     return(
       <div class="row">
         <h3>Create Document</h3>
@@ -56,7 +62,7 @@ class CreateDoc extends Component {
             </select>
           </div>
           <span>{this.displayMessage()}</span><br/>
-          <button class="btn waves-effect waves-light" type="submit" name="action">Create Document </button>
+          <button class={"btn waves-effect waves-light "+disabled} type="submit" name="action">{buttonText}</button>
         </form>
       </div>
     );
