@@ -8,6 +8,7 @@ import NavBar from '../components/presentational/NavBar';
 import { DocActions, UserActions } from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state);
   return {
     user: state.user,
     doc: state.doc

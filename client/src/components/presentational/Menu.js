@@ -10,7 +10,7 @@ const Menu = ({ user }) => {
         </div>
       </li>
       <li><a class="subheader">User Management</a></li>
-      <li className="center-align">Hi! {user.user.firstName + " " + user.user.lastName }</li>
+      <li className="center-align">Hi! {(user.user) ? user.user.firstName + " " + user.user.lastName : '' }</li>
       <li>
         <Link to="/edit_profile" className="waves-effect">
           <i class="material-icons">account_box</i>Edit Profile
