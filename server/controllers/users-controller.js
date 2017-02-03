@@ -35,6 +35,7 @@ class UsersController {
           return res.status(200).json({
             done: true,
             user: userDetails,
+            message: 'Account creation successful',
             token
           });
         });

@@ -33,14 +33,13 @@ class Login extends Component {
             <input onChange={(event) => this.inputChange(event, 'password')} id="loignpassword" type="password" />
             <label for="password">Password</label>
           </div>
-          <span>{this.props.user()}</span><br/>
-          <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
-          <p>New user?
-          <span
-            style={{color: green600}}
-            className="anchor" onTouchTap={this.props.switch}> Sign up
-          </span>
-        </p>
+          <div class="input-field col s12">
+            <span>{this.props.displayMessage()}</span><br/>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
+            <p>New user?
+              <span style={{color: green600}} className="anchor" onTouchTap={this.props.switch}> Sign up</span>
+            </p>
+          </div>
         </form>
       </div>
     );

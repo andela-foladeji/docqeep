@@ -8,7 +8,6 @@ import NavBar from '../components/presentational/NavBar';
 import { DocActions, UserActions } from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
   return {
     user: state.user,
     doc: state.doc
@@ -19,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: (userDetails) => dispatch(UserActions.register(userDetails)),
     login: (loginDetails) => dispatch(UserActions.login(loginDetails)),
+    editProfile: (userInfo) => dispatch(UserActions.editProfile(userInfo)),
     createDoc: (docDetails) => dispatch(DocActions.createDocument(docDetails)),
     getDoc: () => dispatch(DocActions.getDocuments()),
     getADocument: (docId) => dispatch(DocActions.getADocument(docId))
@@ -39,7 +39,7 @@ class Index extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
-          { React.cloneElement(this.props.children, {user: this.props.user, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc, getADocument: this.props.getADocument}) }
+          { React.cloneElement(this.props.children, {user: this.props.user, editProfile: this.props.editProfile, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc, getADocument: this.props.getADocument}) }
         </section>
       </MuiThemeProvider>
     );

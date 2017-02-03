@@ -11,7 +11,7 @@ class DropDown extends Component {
   constructor(props) {
     super();
     this.state = {
-      signin: true
+      signin: true,
     };
     this.errorStyle = {
       color: red400
@@ -19,15 +19,12 @@ class DropDown extends Component {
     this.successStyle = {
       color: green600
     }
-    this.formToDisplay = this
-      .formToDisplay
-      .bind(this);
-    this.displayMessage = this
-      .displayMessage
-      .bind(this);
+    this.formToDisplay = this.formToDisplay.bind(this);
+    this.displayMessage = this.displayMessage.bind(this);
   }
 
   formToDisplay() {
+    this.setState({ messageStatus: null, message: null});
     switch (this.state.signin) {
       case true:
         {
@@ -42,15 +39,24 @@ class DropDown extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ messageStatus: nextProps.user.done, message: nextProps.user.message });
+  }
+
   displayMessage() {
-    if (this.props.user.done === false) {
-      return <span style={this.errorStyle}>{this.props.user.message}</span>;
-    } else if (this.props.user.done === true) {
+    if(this.state.messageStatus === true) {
       setTimeout(() => {
+        this.setState({ messageStatus: null, message: null});
         this.props.loggedIn();
         browserHistory.push('/main/create_document');
-      }, 3000)
-      return <span style={this.successStyle}>{this.props.user.message}</span>;
+      }, 3000);
+      
+      return <span style={this.successStyle}>{this.state.message}</span>;
+    } else if(this.state.messageStatus === false) {
+      setTimeout(() => {
+        this.setState({ messageStatus: null, message: null});
+      }, 5000);
+      return <span style={this.errorStyle}>{this.state.message}</span>;
     }
   }
 
@@ -58,14 +64,9 @@ class DropDown extends Component {
     return (
       <div className="dropDownForm">
         {this.state.signin
-          ? <Login
-              login={this.props.login}
-              user={this.displayMessage}
-              switch={this.formToDisplay}/>
-          : <Signup
-            user={this.displayMessage}
-            register={this.props.register}
-            switch={this.formToDisplay}/>}
+          ? <Login login={this.props.login} displayMessage={this.displayMessage} switch={this.formToDisplay} />
+          : <Signup register={this.props.register} switch={this.formToDisplay} displayMessage={this.displayMessage} />
+        }
       </div>
     );
   }

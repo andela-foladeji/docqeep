@@ -29,6 +29,20 @@ const userReducer = (state = {}, action) => {
       // state = { ...state, ...action.payload };
       break;
     }
+    case 'EDIT_FULFILLED': {
+      const response = action.payload.data;
+      state = { ...state, ...response };
+      break;
+    }
+    case 'EDIT_REJECTED': {
+      const response = action.payload.response.data;
+      state = { ...state, ...response };
+      break;
+    }
+    case 'EDIT_PENDING': {
+      // state = { ...state, ...action.payload };
+      break;
+    }
   }
   return state;
 };
