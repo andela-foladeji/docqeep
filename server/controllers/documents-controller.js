@@ -18,6 +18,7 @@ class DocumentsController {
     db.document.create(req.body)
       .then(docInfo => res.status(200).json({
         done: true,
+        message: 'Document created',
         doc: docInfo.dataValues
       }))
       .catch((error) => {

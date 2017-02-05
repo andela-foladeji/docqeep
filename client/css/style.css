@@ -31,3 +31,6 @@ body {
   height: 64px;
   background: #6BBD6E;
   color: #fff; }
+
+.message {
+  text-transform: capitalize; }

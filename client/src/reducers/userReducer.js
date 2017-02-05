@@ -2,6 +2,8 @@ const userReducer = (state = {}, action) => {
   switch (action.type) {
     case 'REGISTER_USER_FULFILLED': {
       const response = action.payload.data;
+      localStorage.setItem('docqeeper', response.token);
+      delete response.token;
       state = { ...state, ...response };
       break;
     }
@@ -17,6 +19,7 @@ const userReducer = (state = {}, action) => {
     case 'LOGIN_FULFILLED': {
       const response = action.payload.data;
       localStorage.setItem('docqeeper', response.token);
+      delete response.token;
       state = { ...state, ...response };
       break;
     }

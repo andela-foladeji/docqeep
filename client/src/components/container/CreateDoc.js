@@ -21,23 +21,39 @@ class CreateDoc extends Component {
     this.setState({[field]: textValue});
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({
+      pending: false,
+      messageStatus: nextProps.doc.done,
+      message: nextProps.doc.message
+    });
+  }
+
   createDocument(event) {
+    this.setState({ pending: true });
     event.preventDefault();
     this.props.createDoc(this.state);
   }
 
   displayMessage() {
-    if (this.props.doc.done) {
-      return <span style={this.successStyle}>Document created successfully</span>;
+    if(this.state.messageStatus) {
+      setTimeout(() => {
+        this.setState({ messageStatus: null, message: null});
+      }, 5000);
+      return <span style={this.successStyle}>{this.state.message}</span>;
+    } else if(this.state.messageStatus === false) {
+      setTimeout(() => {
+        this.setState({ messageStatus: null, message: null});
+      }, 5000);
+      return <span style={this.errorStyle}>{this.state.message}</span>;
     }
-    return <span style={this.errorStyle}>{this.props.doc.message}</span>;
-    
-  }
+  } 
 
   render() {
     let buttonText = 'Create Document'
     let disabled = '';
-    if (this.props.doc.pending) {
+    if (this.state.pending) {
       buttonText = 'Processing...';
       disabled = 'disabled';
     }
@@ -61,7 +77,7 @@ class CreateDoc extends Component {
               <option value="role">Role</option>
             </select>
           </div>
-          <span>{this.displayMessage()}</span><br/>
+          <span class="message">{this.displayMessage()}</span><br/>
           <button class={"btn waves-effect waves-light "+disabled} type="submit" name="action">{buttonText}</button>
         </form>
       </div>

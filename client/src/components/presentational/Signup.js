@@ -16,7 +16,6 @@ class Signup extends Component {
   invokeRegistration(event) {
     event.preventDefault();
     const name = this.state.fullname.split(' ');
-    delete this.state.fullname;
     this.state.firstName = name[0];
     this.state.lastName = name[1];
     this.props.register(this.state);
