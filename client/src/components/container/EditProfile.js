@@ -5,8 +5,8 @@ import {green600, red400} from 'material-ui/styles/colors';
 class EditProfile extends Component {
   constructor(props) {
     super(props);
-    if(this.props.user.user) {
-      this.state = this.props.user.user;
+    if(this.props.user) {
+      this.state = this.props.user;
     } else {
       this.state = {};
     }
@@ -23,12 +23,15 @@ class EditProfile extends Component {
   }
 
   componentWillReceiveProps(nextprops) {
+    if(nextprops.user.done) {
+      document.getElementById('profilepassword').value = ''
+      document.getElementById('profileconfirmpassword').value = '';
+    }
     this.setState({
       message: nextprops.user.message,
       messageStatus: nextprops.user.done,
       pending: false
     });
-    console.log(this.state);
   }
 
   inputChange(event, field) {

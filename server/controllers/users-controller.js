@@ -168,6 +168,7 @@ class UsersController {
       }).then(updatedUser =>
         res.status(200).json({
           done: true,
+          message: 'User successfully edited',
           user: UsersController.fetchUser(updatedUser[1][0].dataValues)
         })
       ).catch(error =>

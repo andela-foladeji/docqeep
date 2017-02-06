@@ -38,8 +38,11 @@ const userReducer = (state = {}, action) => {
       break;
     }
     case 'EDIT_FULFILLED': {
-      const response = action.payload.data;
-      state = { ...state, ...response };
+      const { user } = action.payload.data;
+      user.status = action.payload.status;
+      user.message = action.payload.data.message;
+      user.done = action.payload.data.done;
+      state = { ...state, ...user };
       break;
     }
     case 'EDIT_REJECTED': {
