@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch) => {
     register: (userDetails) => dispatch(UserActions.register(userDetails)),
     login: (loginDetails) => dispatch(UserActions.login(loginDetails)),
     editProfile: (userInfo) => dispatch(UserActions.editProfile(userInfo)),
+    getUser: () => dispatch(UserActions.getUser()),
     createDoc: (docDetails) => dispatch(DocActions.createDocument(docDetails)),
     getDoc: () => dispatch(DocActions.getDocuments()),
     getADocument: (docId) => dispatch(DocActions.getADocument(docId))
@@ -26,6 +27,11 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 class Index extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   render() {
     const muiTheme = getMuiTheme({
       palette: {
@@ -39,7 +45,7 @@ class Index extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <NavBar register={this.props.register} login={this.props.login} user={this.props.user} />
-          { React.cloneElement(this.props.children, {user: this.props.user, editProfile: this.props.editProfile, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc, getADocument: this.props.getADocument}) }
+          { React.cloneElement(this.props.children, {user: this.props.user, editProfile: this.props.editProfile, createDoc: this.props.createDoc, doc: this.props.doc, getDoc: this.props.getDoc, getADocument: this.props.getADocument, getUser: this.props.getUser }) }
         </section>
       </MuiThemeProvider>
     );

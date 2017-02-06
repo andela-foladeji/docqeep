@@ -43,6 +43,14 @@ class EditProfile extends Component {
   invokeProfileEdit(event) {
     event.preventDefault();
     this.setState({ pending: true });
+    if(this.state.password != this.state.confirmpassword) {
+      this.setState({
+        message: 'Passwords do not match',
+        messageStatus: false,
+        pending: false
+      });
+      return;
+    }
     this.props.editProfile(this.state);
   }
 

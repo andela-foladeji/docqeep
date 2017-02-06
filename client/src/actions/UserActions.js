@@ -17,6 +17,15 @@ const userActions = {
     };
   },
 
+  getUser() {
+    return (dispatch) => {
+      dispatch({
+        type: 'GET_USER',
+        payload: axios.get(`/users/${localStorage.getItem('docqeeperid')}`, config)
+      });
+    };
+  },
+
   login(loginDetails) {
     return (dispatch) => {
       dispatch({
