@@ -34,3 +34,11 @@ body {
 
 .message {
   text-transform: capitalize; }
+
+.success {
+  background: #8bc34a;
+  text-transform: capitalize; }
+
+.fail {
+  background: #d32f2f;
+  text-transform: capitalize; }

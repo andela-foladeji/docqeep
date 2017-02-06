@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {green600, red400} from 'material-ui/styles/colors';
+import { emptyForm, displayMessage } from '../../helpers';
 
 class CreateDoc extends Component {
   constructor() {
@@ -7,13 +8,6 @@ class CreateDoc extends Component {
     this.state = {};
     this.inputChange = this.inputChange.bind(this);
     this.createDocument = this.createDocument.bind(this);
-    this.errorStyle = {
-      color: red400
-    };
-    this.successStyle = {
-      color: green600
-    }
-    this.displayMessage = this.displayMessage.bind(this);
   }
 
   inputChange(event, field) {
@@ -22,33 +16,20 @@ class CreateDoc extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    if(nextProps.doc.status === 200) {
+      emptyForm(['title', 'content']);
+    }
     this.setState({
-      pending: false,
-      messageStatus: nextProps.doc.done,
-      message: nextProps.doc.message
+      pending: false
     });
+    displayMessage(nextProps.doc.message, nextProps.doc.done);
   }
 
   createDocument(event) {
-    this.setState({ pending: true });
     event.preventDefault();
+    this.setState({ pending: true });
     this.props.createDoc(this.state);
   }
-
-  displayMessage() {
-    if(this.state.messageStatus) {
-      setTimeout(() => {
-        this.setState({ messageStatus: null, message: null});
-      }, 5000);
-      return <span style={this.successStyle}>{this.state.message}</span>;
-    } else if(this.state.messageStatus === false) {
-      setTimeout(() => {
-        this.setState({ messageStatus: null, message: null});
-      }, 5000);
-      return <span style={this.errorStyle}>{this.state.message}</span>;
-    }
-  } 
 
   render() {
     let buttonText = 'Create Document'
@@ -77,7 +58,6 @@ class CreateDoc extends Component {
               <option value="role">Role</option>
             </select>
           </div>
-          <span class="message">{this.displayMessage()}</span><br/>
           <button class={"btn waves-effect waves-light "+disabled} type="submit" name="action">{buttonText}</button>
         </form>
       </div>

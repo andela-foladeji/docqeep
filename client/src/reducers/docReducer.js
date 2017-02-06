@@ -1,7 +1,8 @@
 const docReducer = (state = {}, action) => {
   switch (action.type) {
     case 'CREATE_DOC_FULFILLED': {
-      const { data } = action.payload.response;
+      const { data } = action.payload;
+      data.status = action.payload.status;
       state = { ...state, ...data };
       break;
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {green600, red400} from 'material-ui/styles/colors';
-
+import { emptyForm, displayMessage } from '../../helpers';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -16,7 +16,6 @@ class EditProfile extends Component {
     this.successStyle = {
       color: green600
     }
-    this.displayMessage = this.displayMessage.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.getValue = this.getValue.bind(this);
     this.invokeProfileEdit = this.invokeProfileEdit.bind(this);
@@ -24,12 +23,10 @@ class EditProfile extends Component {
 
   componentWillReceiveProps(nextprops) {
     if(nextprops.user.done) {
-      document.getElementById('profilepassword').value = ''
-      document.getElementById('profileconfirmpassword').value = '';
+      emptyForm(['profilepassword', 'profileconfirmpassword']);
     }
+    displayMessage(nextprops.user.message, nextprops.user.done);
     this.setState({
-      message: nextprops.user.message,
-      messageStatus: nextprops.user.done,
       pending: false
     });
   }
@@ -57,19 +54,6 @@ class EditProfile extends Component {
     this.props.editProfile(this.state);
   }
 
-  displayMessage() {
-    if(this.state.messageStatus) {
-      setTimeout(() => {
-        this.setState({ messageStatus: null, message: null});
-      }, 5000);
-      return <span style={this.successStyle}>{this.state.message}</span>;
-    } else if(this.state.messageStatus === false) {
-      setTimeout(() => {
-        this.setState({ messageStatus: null, message: null});
-      }, 5000);
-      return <span style={this.errorStyle}>{this.state.message}</span>;
-    }
-  }
 
   render() {
     let buttonText = 'Save'
@@ -108,7 +92,6 @@ class EditProfile extends Component {
             <label for="profileconfirmpassword" class="active">Confirm Password</label>
           </div>
           <div class="input-field col s12 m9 l6 offset-l3">
-            <span class="message">{this.displayMessage()}</span><br/>
             <input type="hidden" value={this.getValue('id')} />
             <button class={"btn waves-effect waves-light " + disabled} type="submit" name="action">{ buttonText }</button>
           </div>

@@ -53,7 +53,6 @@ class Signup extends Component {
             </select>
           </div>
           <div class="input-field col s12">
-            <span>{this.props.displayMessage()}</span><br/>
               <button class="btn waves-effect waves-light" type="submit" name="action">Submit </button>
               <p>Existing user?
                 <span

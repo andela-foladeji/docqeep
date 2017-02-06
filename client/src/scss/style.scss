@@ -2,6 +2,9 @@ $phone: 768px;
 $tablet: 992px;
 $small-desk: 1200px;
 $bg-color: #6BBD6E;
+$fail: #d32f2f;
+$success: #8bc34a;
+
 body {
   padding: 0;
   margin: 0;
@@ -46,5 +49,15 @@ body {
 }
 
 .message {
+  text-transform: capitalize;
+}
+
+.success {
+  background: $success;
+  text-transform: capitalize;
+}
+
+.fail {
+  background: $fail;
   text-transform: capitalize;
 }
