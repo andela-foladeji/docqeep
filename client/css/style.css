@@ -42,3 +42,8 @@ body {
 .fail {
   background: #d32f2f;
   text-transform: capitalize; }
+
+.loader-wrapper {
+  height: 100vh; }
+  .loader-wrapper .loader {
+    margin: auto; }

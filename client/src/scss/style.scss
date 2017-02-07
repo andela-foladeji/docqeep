@@ -4,12 +4,10 @@ $small-desk: 1200px;
 $bg-color: #6BBD6E;
 $fail: #d32f2f;
 $success: #8bc34a;
-
 body {
   padding: 0;
   margin: 0;
 }
-
 
 .anchor {
   cursor: pointer;
@@ -20,7 +18,7 @@ body {
   background-size: cover;
   width: 100%;
   height: 400px;
-  padding-top:100px;
+  padding-top: 100px;
 }
 
 .description {
@@ -34,9 +32,8 @@ body {
   text-align: right;
 }
 
-.a_doc{
+.a_doc {
   height: 250px;
-
   .doc_content {
     height: 200px;
   }
@@ -60,4 +57,11 @@ body {
 .fail {
   background: $fail;
   text-transform: capitalize;
+}
+
+.loader-wrapper {
+  height: 100vh;
+  .loader {
+    margin: auto;
+  }
 }
